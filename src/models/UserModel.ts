@@ -43,4 +43,14 @@ async function setUserBirthday(userId: string, birthday: number): Promise<void> 
 
 }
 
-export { addUser, setUserMallAddress, setUserBirthday };
+//User's Admin Status
+async function setUserAdmin(userId: string, admin: boolean): Promise<void> {
+
+    let user = await getUserById(userId);
+    user.admin = admin;
+
+    user = await userRepository.save(user);
+
+}
+
+export { addUser, setUserMallAddress, setUserBirthday, setUserAdmin };
