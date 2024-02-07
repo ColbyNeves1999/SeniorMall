@@ -21,6 +21,9 @@ app.use(
 );
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static('public', { extensions: ['html'] }));
+app.set('view engine', 'ejs');
 
 app.listen(PORT, () => {
     console.log(`Listening at http://localhost:${PORT}`);
