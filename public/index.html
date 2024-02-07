@@ -5,25 +5,89 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <title>Homepage</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Include Bootstrap CSS For map-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .store-info {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .store-info h2 {
+            margin-top: 0;
+        }
+
+        .store-info p {
+            margin-bottom: 0;
+        }
+    </style>
 </head>
 
-<h1>Welcome to our mall!</h1>
 <body>
-  <div id="map" style="width: 800px; height: 200px;"></div>
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script>
-    var map = L.map('map').setView([35.828113, -90.686391], 13);
+    <h1>Senior Design Mall</h1>
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-    }).addTo(map);
+    <div class="store-info">
+        <div>
+            <h2>Nike</h2>
+            <img src="images/nike.jpg" width="300" height="200">
+            <p>
+                <i class="bi bi-envelope-fill"></i> nike@astate.org<br>
+                <i class="bi bi-telephone-fill"></i> (870) 123-0000<br>
+                <i class="bi bi-geo-alt-fill"></i> 1A<br>
+                <i class="bi bi-clock-fill"></i> 9:00 to 20:00 Monday to Friday
+            </p>
+        </div>
 
-    L.marker([35.828113, -90.686391]).addTo(map)
-        .bindPopup("2105 East, Aggie Rd, Jonesboro, AR 72401")
-        .openPopup();
-</script>
+        <div>
+            <h2>Target</h2>
+            <img src="images/target.png" width="300" height="200">
+            <p>
+                <i class="bi bi-envelope-fill"></i> target@astate.org<br>
+                <i class="bi bi-telephone-fill"></i> (870) 234-0000<br>
+                <i class="bi bi-geo-alt-fill"></i> 2A<br>
+                <i class="bi bi-clock-fill"></i> 9:00 to 20:00 Monday to Friday
+            </p>
+        </div>
 
+        <div>
+          <h2>Walmart</h2>
+          <img src="images/target.png" width="300" height="200">
+          <p>
+              <i class="bi bi-envelope-fill"></i> Walmart@astate.org<br>
+              <i class="bi bi-telephone-fill"></i> (870) 567-0000<br>
+              <i class="bi bi-geo-alt-fill"></i> 3A<br>
+              <i class="bi bi-clock-fill"></i> 9:00 to 20:00 Monday to Friday
+          </p>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS for map-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <div id="map" style="width: 800px; height: 200px;"></div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([35.828113, -90.686391], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        L.marker([35.828113, -90.686391]).addTo(map)
+            .bindPopup("2105 East, Aggie Rd, Jonesboro, AR 72401")
+            .openPopup();
+    </script>
+    <p>
+      <i class="bi bi-envelope-fill"></i> seniorMall@astate.org<br>
+      <i class="bi bi-telephone-fill"></i> (870) 123-4567<br>
+      <i class="bi bi-geo-alt-fill"></i> 2105 East, Aggie Rd, Jonesboro, AR<br>
+      <i class="bi bi-clock-fill"></i> 9:00 to 20:00 Monday to Friday
+    </p>
 
 </body>
+
+</html>
