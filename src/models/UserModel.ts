@@ -19,10 +19,6 @@ async function addUser(email: string, passwordHash: string): Promise<User> {
 
 }
 
-async function getUserById(userId: string): Promise<User | null> {
-    return await userRepository.findOne({ where: { userId } });
-}
-
 //User's associated Mall address
 async function setUserMallAddress(userId: string, mallAddress: string): Promise<void> {
 
@@ -53,4 +49,12 @@ async function setUserAdmin(userId: string, admin: boolean): Promise<void> {
 
 }
 
-export { addUser, setUserMallAddress, setUserBirthday, setUserAdmin };
+async function getUserById(userId: string): Promise<User | null> {
+    return await userRepository.findOne({ where: { userId } });
+}
+
+async function getUserByEmail(email: string): Promise<User | null> {
+    return userRepository.findOne({ where: { email } });
+}
+
+export { addUser, setUserMallAddress, setUserBirthday, setUserAdmin, getUserByEmail };
