@@ -19,4 +19,28 @@ async function addUser(email: string, passwordHash: string): Promise<User> {
 
 }
 
-export { addUser };
+async function getUserById(userId: string): Promise<User | null> {
+    return await userRepository.findOne({ where: { userId } });
+}
+
+//User's associated Mall address
+async function setUserMallAddress(userId: string, mallAddress: string): Promise<void> {
+
+    let user = await getUserById(userId);
+    user.address = mallAddress;
+
+    user = await userRepository.save(user);
+
+}
+
+//User's Birthday
+async function setUserBirthday(userId: string, birthday: number): Promise<void> {
+
+    let user = await getUserById(userId);
+    user.birthday = birthday;
+
+    user = await userRepository.save(user);
+
+}
+
+export { addUser, setUserMallAddress, setUserBirthday };
