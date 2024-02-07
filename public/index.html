@@ -5,9 +5,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <title>Homepage</title>
 </head>
 
+<h1>Welcome to our mall!</h1>
 <body>
-    <h1>Welcome to our mall!</h1>
+  <div id="map" style="width: 800px; height: 200px;"></div>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([35.828113, -90.686391], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+    L.marker([35.828113, -90.686391]).addTo(map)
+        .bindPopup("2105 East, Aggie Rd, Jonesboro, AR 72401")
+        .openPopup();
+</script>
+
+
 </body>
