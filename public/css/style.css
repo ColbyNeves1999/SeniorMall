@@ -1,0 +1,85 @@
+@import url('https://meyerweb.com/eric/tools/css/reset/reset.css');
+@import url('https://unpkg.com/leaflet@1.7.1/dist/leaflet.css');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css');
+
+body {
+  font-family: 'Rubik', serif;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+h1 {
+  font-family: 'Rubik', serif;
+  background-color: #4e4d54;
+  color: #ebe3e3;
+  font-size: 3rem;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+}
+
+.btn {
+  font-family: 'Rubik', serif;
+  border: 2px solid black;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0;
+  position: relative;
+  transition: box-shadow 0.35s, top 0.3s, transform 0.45s;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0.3rem;
+  box-shadow: 0 0 0 0 black, 0 0 0 0 black, 0 0 0 0 black;
+}
+
+.btn-small {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-large {
+  font-size: 1.3rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.btn + .btn {
+  margin-left: 10px; /* Adjust the margin between buttons */
+}
+
+.btn:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  top: 3px;
+  transform: rotateX(5deg) rotateY(10deg) rotateZ(0.5deg);
+  cursor: pointer;
+}
+
+.store-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.store-info h2 {
+  margin-top: 0;
+}
+
+.store-info p {
+  margin-bottom: 0;
+}
+footer {
+  margin-top: auto;
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+}
