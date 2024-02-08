@@ -10,14 +10,14 @@ const { PORT, COOKIE_SECRET } = process.env;
 const SQLiteStore = connectSqlite3(session);
 
 app.use(
-    session({
-        store: new SQLiteStore({ db: 'sessions.sqlite' }),
-        secret: COOKIE_SECRET,
-        cookie: { maxAge: 8 * 60 * 60 * 1000 }, // 8 hours
-        name: 'session',
-        resave: false,
-        saveUninitialized: false,
-    })
+  session({
+    store: new SQLiteStore({ db: 'sessions.sqlite' }),
+    secret: COOKIE_SECRET,
+    cookie: { maxAge: 8 * 60 * 60 * 1000 }, // 8 hours
+    name: 'session',
+    resave: false,
+    saveUninitialized: false,
+  })
 );
 
 app.use(express.json());
@@ -26,5 +26,5 @@ app.use(express.static('public', { extensions: ['html'] }));
 app.set('view engine', 'ejs');
 
 app.listen(PORT, () => {
-    console.log(`Listening at http://localhost:${PORT}`);
+  console.log(`Listening at http://localhost:${PORT}`);
 });

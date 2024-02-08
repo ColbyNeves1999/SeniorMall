@@ -5,14 +5,14 @@
 
 body {
   font-family: 'Rubik', serif;
-  background-color: #f0f0f0;
+  background-color: hwb(0 97% 3%);
   color: #333;
 }
 
 h1 {
   font-family: 'Rubik', serif;
-  background-color: #4e4d54;
-  color: #ebe3e3;
+  background-color: #88888e;
+  color: #FAF9F6;
   font-size: 3rem;
   margin-top: 20px;
   display: flex;
@@ -78,8 +78,10 @@ h1 {
   margin-bottom: 0;
 }
 footer {
+  background-color: #88888e;
+  color:#e5e1e1;
   margin-top: auto;
-  background-color: #f0f0f0;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
+  width: 100%;
 }
