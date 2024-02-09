@@ -5,12 +5,12 @@ const storeRepository = AppDataSource.getRepository(Store);
 
 async function addStore(mallname: string): Promise<Store> {
 
-    // Create the new user object and saves data
+    // Create the new store object and saves data
     let newStore = new Store();
     newStore.mallname = mallname;
 
     // Then save it to the database
-    // NOTES: We reassign to `newUser` so we can access
+    // NOTES: We reassign to `newStore` so we can access
     // NOTES: the fields the database autogenerates (the id & default columns)
     newStore = await storeRepository.save(newStore);
 
@@ -19,7 +19,7 @@ async function addStore(mallname: string): Promise<Store> {
 }
 
 //Store's Location
-async function setMallLocation(storeId: string, location: string): Promise<void> {
+async function setStoreLocation(storeId: string, location: string): Promise<void> {
 
     let store = await getStoreById(storeId);
     store.location = location;
@@ -46,4 +46,4 @@ async function getStoreByLocation(location: string): Promise<Store | null> {
     return storeRepository.findOne({ where: { location } });
 }
 
-export { addStore, setMallLocation, setStorePhone, getStoreById, getStoreByLocation };
+export { addStore, setStoreLocation, setStorePhone, getStoreById, getStoreByLocation };

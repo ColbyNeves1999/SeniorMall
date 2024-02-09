@@ -5,12 +5,12 @@ const itemRepository = AppDataSource.getRepository(Item);
 
 async function addItem(itemName: string): Promise<Item> {
 
-    // Create the new user object and saves data
+    // Create the new item object and saves data
     let newItem = new Item();
     newItem.itemName = itemName;
 
     // Then save it to the database
-    // NOTES: We reassign to `newUser` so we can access
+    // NOTES: We reassign to `newItem` so we can access
     // NOTES: the fields the database autogenerates (the id & default columns)
     newItem = await itemRepository.save(newItem);
 

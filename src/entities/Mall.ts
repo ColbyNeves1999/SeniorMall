@@ -3,10 +3,10 @@ import { Entity, PrimaryGeneratedColumn, Column, } from 'typeorm';
 @Entity()
 export class Mall {
     @PrimaryGeneratedColumn('uuid')
-    storeId: string;
+    mallId: string;
 
     @Column({ unique: true })
-    storename: string;
+    mallName: string;
 
     @Column({ unique: true })
     location: string;
