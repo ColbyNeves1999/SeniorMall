@@ -6,6 +6,9 @@ export class Item {
     itemId: string;
 
     @Column()
+    itemName: string;
+
+    @Column()
     stock: number;
 
 }
