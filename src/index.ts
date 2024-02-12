@@ -27,8 +27,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public', { extensions: ['html'] }));
 app.set('view engine', 'ejs');
 
-app.post('/registerUser', registerUser, registerUser); //Registers a user
-app.post('/login', logIn, logIn); //Lets a user login
+app.post('/registerUser', registerUser); //Registers a user
+app.post('/login', logIn); //Lets a user login
 
 app.get('/userHomepage', userHomePage); //Displays the user's homepage
 
