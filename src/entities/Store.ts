@@ -6,7 +6,7 @@ export class Store {
     storeId: string;
 
     @Column({ unique: true })
-    storename: string;
+    storeName: string;
 
     @Column({ unique: true })
     location: string;

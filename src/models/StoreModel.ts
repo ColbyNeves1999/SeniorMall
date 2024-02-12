@@ -7,7 +7,7 @@ async function addStore(mallname: string): Promise<Store> {
 
     // Create the new store object and saves data
     let newStore = new Store();
-    newStore.mallname = mallname;
+    newStore.storeName = mallname;
 
     // Then save it to the database
     // NOTES: We reassign to `newStore` so we can access
