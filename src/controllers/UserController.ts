@@ -49,9 +49,25 @@ async function logIn(req: Request, res: Response): Promise<void> {
     };
     req.session.isLoggedIn = true;
 
-    //res.redirect for page will go here//
+    res.redirect('/index');
     return;
 
 }
 
-export {registerUser, logIn };
+async function userHomePage(req: Request, res: Response): Promise<void> {
+
+    let user = undefined;
+
+    if (req.session.isLoggedIn) {
+        user = await getUserByEmail(req.session.authenticatedUser.email);
+    } else {
+        res.redirect('/login');
+        return;
+    }
+
+    res.render('userAccountsPage', { user });
+
+
+}
+
+export { registerUser, logIn, userHomePage };
