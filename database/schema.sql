@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS Store (
 );
 
 CREATE TABLE IF NOT EXISTS Item (
-    itemId PRIMARY KEY DEFAULT,
+    itemId PRIMARY KEY,
     itemName VARCHAR(255) NOT NULL DEFAULT 'Unknown Item Name',
     stock INT NOT NULL
 );
