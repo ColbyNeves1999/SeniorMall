@@ -2,6 +2,9 @@ import { AppDataSource } from '../dataSource';
 import { User } from '../entities/User';
 
 const userRepository = AppDataSource.getRepository(User);
+async function getUserById(userId: string): Promise<User | null> {
+  return await userRepository.findOne({ where: { userId } });
+}
 
 async function addUser(email: string, passwordHash: string): Promise<User> {
   // Create the new user object and saves data
@@ -39,10 +42,6 @@ async function setUserAdmin(userId: string, admin: boolean): Promise<void> {
   user.admin = admin;
 
   user = await userRepository.save(user);
-}
-
-async function getUserById(userId: string): Promise<User | null> {
-  return await userRepository.findOne({ where: { userId } });
 }
 
 async function getUserByEmail(email: string): Promise<User | null> {
