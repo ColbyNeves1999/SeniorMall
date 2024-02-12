@@ -11,4 +11,6 @@ export class Item {
     @Column()
     stock: number;
 
+
+
 }
