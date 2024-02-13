@@ -11,12 +11,12 @@ export class User {
   @Column({ unique: true })
   passwordHash: string;
 
-  @Column()
+  @Column({ default: null })
   address: string;
 
-  @Column()
+  @Column({ default: null })
   birthday: number;
 
-  @Column()
+  @Column({ default: false })
   admin: boolean;
 }

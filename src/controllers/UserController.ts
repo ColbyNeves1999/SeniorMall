@@ -18,7 +18,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 
     await addUser(email, passwordHash);
 
-    //res.redirect for page will go here//
+    res.redirect("/index");
     return;
 
 }
