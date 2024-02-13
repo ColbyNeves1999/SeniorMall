@@ -1,6 +1,4 @@
 type userLoginInfo = {
-
-    email: string;
-    password: string;
-
-}
+  email: string;
+  password: string;
+};

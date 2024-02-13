@@ -12,8 +12,7 @@ declare module 'express-session' {
       birthday: number;
       admin: boolean;
     };
-    
-    isLoggedIn: boolean;
 
+    isLoggedIn: boolean;
   }
 }

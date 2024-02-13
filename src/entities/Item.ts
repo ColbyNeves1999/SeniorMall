@@ -1,16 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Item {
-    @PrimaryGeneratedColumn('uuid')
-    itemId: string;
+  @PrimaryGeneratedColumn('uuid')
+  itemId: string;
 
-    @Column()
-    itemName: string;
+  @Column()
+  itemName: string;
 
-    @Column()
-    stock: number;
-
-
-
+  @Column()
+  stock: number;
 }

@@ -1,7 +1,6 @@
-//UNCOMMENT WHEN FUNCTIONS NEED TO BE MADE
-//import { Request, Response } from 'express';
+// UNCOMMENT WHEN FUNCTIONS NEED TO BE MADE
+// import { Request, Response } from 'express';
 
-import {  } from '../models/StoreModel';
+import {} from '../models/StoreModel';
 
-
-export { };
+export {};
