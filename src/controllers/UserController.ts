@@ -4,7 +4,6 @@ import argon2 from 'argon2';
 import { addUser, getUserByEmail } from '../models/UserModel';
 
 async function registerUser(req: Request, res: Response): Promise<void> {
-
     const { email, password } = req.body as userLoginInfo;
     const user = await getUserByEmail(email);
 
@@ -24,7 +23,6 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
-
     const { email, password } = req.body as userLoginInfo;
     const user = await getUserByEmail(email);
 
@@ -36,7 +34,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
     const { passwordHash } = user;
 
     if (!(await argon2.verify(passwordHash, password))) {
-        //res.redirect for page will go here//
+        // res.redirect for page will go here//
         return;
     }
 
@@ -50,13 +48,10 @@ async function logIn(req: Request, res: Response): Promise<void> {
     req.session.isLoggedIn = true;
 
     res.redirect('/index');
-    return;
-
 }
 
 async function userHomePage(req: Request, res: Response): Promise<void> {
-
-    let user = undefined;
+    let user;
 
     if (req.session.isLoggedIn) {
         user = await getUserByEmail(req.session.authenticatedUser.email);
@@ -66,8 +61,6 @@ async function userHomePage(req: Request, res: Response): Promise<void> {
     }
 
     res.render('userAccountsPage', { user });
-
-
 }
 
 export { registerUser, logIn, userHomePage };
