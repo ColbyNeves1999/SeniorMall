@@ -62,6 +62,7 @@ async function deleteUserById(userId: string): Promise<void> {
 }
 
 export {
+  getUserById,
   allUserData,
   addUser,
   setUserMallAddress,

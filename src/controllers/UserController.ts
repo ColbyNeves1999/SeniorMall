@@ -1,7 +1,13 @@
 import { Request, Response } from 'express';
 import argon2 from 'argon2';
 import { addMinutes, isBefore, parseISO, formatDistanceToNow } from 'date-fns';
-import { addUser, getUserByEmail, allUserData, deleteUserById } from '../models/UserModel';
+import {
+  addUser,
+  getUserById,
+  getUserByEmail,
+  allUserData,
+  deleteUserById,
+} from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 import { sendEmail } from '../services/emailService';
 
@@ -83,6 +89,13 @@ async function logIn(req: Request, res: Response): Promise<void> {
   res.redirect('/users/userAccountsPage');
 }
 
+async function renderProfilePage(req: Request, res: Response): Promise<void> {
+  const { authenticatedUser } = req.session;
+  const user = await getUserById(authenticatedUser.userId);
+
+  res.render('userAccountgsPage', { user });
+}
+
 async function userHomePage(req: Request, res: Response): Promise<void> {
   let user;
 
@@ -126,4 +139,4 @@ async function deleteAccount(req: Request, res: Response): Promise<void> {
   res.redirect('/index');
 }
 
-export { getAllUserProfiles, registerUser, logIn, userHomePage, deleteAccount };
+export { getAllUserProfiles, registerUser, logIn, userHomePage, deleteAccount, renderProfilePage };
