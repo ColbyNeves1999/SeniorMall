@@ -39,10 +39,8 @@ app.get('/api/users', getAllUserProfiles);
 app.post('/users', validateNewUserBody, registerUser);
 
 app.post('/login', validateLoginBody, logIn);
-
-app.post('/registerUser', registerUser); // Registers a user
-app.post('/login', logIn); // Lets a user login
 app.get('/users/userAccountsPage', renderProfilePage);
+
 app.post('/users/delete', deleteAccount);
 
 app.get('/userHomepage', userHomePage); // Displays the user's homepage
