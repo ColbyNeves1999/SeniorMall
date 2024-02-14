@@ -21,6 +21,7 @@ async function addUser(email: string, passwordHash: string, birthday: number): P
   // NOTES: We reassign to `newUser` so we can access
   // NOTES: the fields the database autogenerates (the id & default columns)
   newUser = await userRepository.save(newUser);
+  console.log("5");
 
   return newUser;
 }
