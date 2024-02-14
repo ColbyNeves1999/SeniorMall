@@ -8,11 +8,13 @@ declare module 'express-session' {
     authenticatedUser: {
       email: string;
       userId: string;
-      address: string;
-      birthday: number;
-      admin: boolean;
+      // address: string;
+      // birthday: number;
+      // admin: boolean;
     };
 
     isLoggedIn: boolean;
+    logInAttempts: number;
+    logInTimeout: string;
   }
 }
