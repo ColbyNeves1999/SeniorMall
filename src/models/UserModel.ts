@@ -6,11 +6,16 @@ async function getUserById(userId: string): Promise<User | null> {
   return await userRepository.findOne({ where: { userId } });
 }
 
-async function addUser(email: string, passwordHash: string): Promise<User> {
+async function allUserData(): Promise<User[]> {
+  return userRepository.find();
+}
+
+async function addUser(email: string, passwordHash: string, birthday: number): Promise<User> {
   // Create the new user object and saves data
   let newUser = new User();
   newUser.email = email;
   newUser.passwordHash = passwordHash;
+  newUser.birthday = birthday;
 
   // Then save it to the database
   // NOTES: We reassign to `newUser` so we can access
@@ -48,4 +53,20 @@ async function getUserByEmail(email: string): Promise<User | null> {
   return userRepository.findOne({ where: { email } });
 }
 
-export { addUser, setUserMallAddress, setUserBirthday, setUserAdmin, getUserByEmail };
+async function deleteUserById(userId: string): Promise<void> {
+  await userRepository
+    .createQueryBuilder('user')
+    .delete()
+    .where('userId = :userId', { userId })
+    .execute();
+}
+
+export {
+  allUserData,
+  addUser,
+  setUserMallAddress,
+  setUserBirthday,
+  setUserAdmin,
+  getUserByEmail,
+  deleteUserById,
+};

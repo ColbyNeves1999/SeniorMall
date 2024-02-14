@@ -1,19 +1,23 @@
 import { Request, Response } from 'express';
 import argon2 from 'argon2';
 import { addMinutes, isBefore, parseISO, formatDistanceToNow } from 'date-fns';
-import { addUser, getUserByEmail } from '../models/UserModel';
+import { addUser, getUserByEmail, allUserData, deleteUserById } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 import { sendEmail } from '../services/emailService';
 
+async function getAllUserProfiles(req: Request, res: Response): Promise<void> {
+  res.json(await allUserData());
+}
+
 async function registerUser(req: Request, res: Response): Promise<void> {
-  const { email, password } = req.body as NewUserRequest;
+  const { email, password, birthday } = req.body as NewUserRequest;
 
   // IMPORTANT: Hash the password
   const passwordHash = await argon2.hash(password);
 
   try {
     // IMPORTANT: Store the `passwordHash` and NOT the plaintext password
-    await addUser(email, passwordHash);
+    await addUser(email, passwordHash, birthday);
     await sendEmail(email, 'Welcome!', `You have successfully created your account!`);
     res.redirect('/login');
   } catch (err) {
@@ -76,7 +80,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
     userId: user.userId,
   };
   req.session.isLoggedIn = true;
-  res.redirect('/users/PreviewPage');
+  res.redirect('/users/userAccountsPage');
 }
 
 async function userHomePage(req: Request, res: Response): Promise<void> {
@@ -92,4 +96,34 @@ async function userHomePage(req: Request, res: Response): Promise<void> {
   res.render('userAccountsPage', { user });
 }
 
-export { registerUser, logIn, userHomePage };
+async function deleteAccount(req: Request, res: Response): Promise<void> {
+  const { isLoggedIn, authenticatedUser } = req.session;
+  const { email, password } = req.body as AuthRequest;
+
+  if (!isLoggedIn) {
+    res.redirect('/login'); // not logged in
+    return;
+  }
+
+  const user = await getUserByEmail(email);
+  if (!user) {
+    res.redirect('/users/userAccountsPage'); // 404 Not Found - email doesn't exist
+    return;
+  }
+
+  if (authenticatedUser.userId !== user.userId) {
+    res.redirect('/users/userAccountsPage'); // trying to delete someone elses account
+    return;
+  }
+
+  const { passwordHash } = user;
+
+  if (!(await argon2.verify(passwordHash, password))) {
+    res.redirect('/users/userAccountsPage'); // 404 not found - user w/ email/password doesn't exist
+  }
+
+  await deleteUserById(user.userId);
+  res.redirect('/index');
+}
+
+export { getAllUserProfiles, registerUser, logIn, userHomePage, deleteAccount };
