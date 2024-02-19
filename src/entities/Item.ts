@@ -13,6 +13,9 @@ export class Item {
   @Column()
   stock: number;
 
+  @Column()
+  description: string;
+
   @ManyToOne(() => Store, (store) => store.items)
   store: Relation<Store>;
 }
