@@ -1,4 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Relation, ManyToMany } from 'typeorm';
+
+import { Item } from './Item';
+import { Mall } from './Mall';
 
 @Entity()
 export class Store {
@@ -13,4 +16,10 @@ export class Store {
 
   @Column({ unique: true })
   phone: string;
+
+  @OneToMany(() => Item, (item) => item.store)
+  items: Relation<Item>[];
+
+  @ManyToMany(() => Mall, (mall) => mall.stores, { cascade: ['insert', 'update'] })
+  malls: Relation<Mall>[];
 }

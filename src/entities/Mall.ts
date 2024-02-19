@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, Relation, JoinTable } from 'typeorm';
+
+import { Store } from './Store';
 
 @Entity()
 export class Mall {
@@ -10,4 +12,8 @@ export class Mall {
 
   @Column({ unique: true })
   location: string;
+
+  @ManyToMany(() => Store, (store) => store.stores, { cascade: ['insert', 'update'] })
+  @JoinTable()
+  malls: Relation<Store>[];
 }

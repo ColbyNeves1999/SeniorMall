@@ -17,4 +17,3 @@ async function sendEmail(to: string, subject: string, message: string): Promise<
 }
 
 export { sendEmail };
-
