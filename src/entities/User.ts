@@ -1,4 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  Relation,
+  JoinTable,
+  ManyToMany,
+} from 'typeorm';
+
+import { Mall } from './Mall';
+import { Store } from './Store';
 
 @Entity()
 export class User {
@@ -19,4 +30,11 @@ export class User {
 
   @Column({ default: false })
   admin: boolean;
+
+  @ManyToOne(() => Mall, (mall) => mall.users)
+  mall: Relation<Mall>;
+
+  @ManyToMany(() => Store, (store) => store.favorite, { cascade: ['insert', 'update'] })
+  @JoinTable()
+  favStore: Relation<Store>[];
 }

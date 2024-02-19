@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Relation, ManyToMany
 
 import { Item } from './Item';
 import { Mall } from './Mall';
+import { User } from './User';
 
 @Entity()
 export class Store {
@@ -22,4 +23,7 @@ export class Store {
 
   @ManyToMany(() => Mall, (mall) => mall.stores, { cascade: ['insert', 'update'] })
   malls: Relation<Mall>[];
+
+  @ManyToMany(() => User, (user) => user.favStore, { cascade: ['insert', 'update'] })
+  favorite: Relation<User>[];
 }
