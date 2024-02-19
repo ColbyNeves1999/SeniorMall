@@ -45,6 +45,17 @@ app.post('/users/delete', deleteAccount);
 
 app.get('/userHomepage', userHomePage); // Displays the user's homepage
 
+// Route to handle GET requests to "/search"
+app.get('/search', (req, res) => {
+  // Retrieve the search query from the request
+  const query = req.query.q;
+
+  // database
+
+  // Return the search results
+  res.send(`Search results for: ${query}`);
+});
+
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
 });

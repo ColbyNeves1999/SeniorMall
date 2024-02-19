@@ -85,3 +85,17 @@ footer {
   text-align: center;
   width: 100%;
 }
+
+/* Style for the search input */
+input[type="text"] {
+  width: 350px;
+  padding: 8px;
+  font-size: 18px;
+}
+
+/* Style for the search button */
+button[type="submit"] {
+  padding: 8px 12px;
+  font-size: 18px;
+}
+
