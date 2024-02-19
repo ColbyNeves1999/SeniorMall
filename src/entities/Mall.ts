@@ -13,7 +13,7 @@ export class Mall {
   @Column({ unique: true })
   location: string;
 
-  @ManyToMany(() => Store, (store) => store.stores, { cascade: ['insert', 'update'] })
+  @ManyToMany(() => Store, (store) => store.malls, { cascade: ['insert', 'update'] })
   @JoinTable()
-  malls: Relation<Store>[];
+  stores: Relation<Store>[];
 }
