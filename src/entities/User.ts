@@ -31,6 +31,10 @@ export class User {
   @Column({ default: false })
   admin: boolean;
 
+  //Has permission to elevate other users to users
+  @Column({ default: false })
+  canElevate: boolean;
+
   @ManyToOne(() => Mall, (mall) => mall.users)
   mall: Relation<Mall>;
 
