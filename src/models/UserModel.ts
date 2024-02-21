@@ -72,16 +72,19 @@ async function lookForAdmin(): Promise<void> {
   const passwordHash = await argon2.hash(ADMINPASS);
   const birthday = 9999;
 
-  const user = await getUserByEmail(email);
+  let user = await getUserByEmail(email);
 
   if (!user) {
     await addUser(email, passwordHash, birthday);
-    const userTemp = await getUserByEmail(email);
-    userTemp.admin = true;
-    userTemp.canElevate = true;
-  } else if (user.admin != true || user.canElevate) {
+    let user = await getUserByEmail(email);
     user.admin = true;
     user.canElevate = true;
+    user = await userRepository.save(user);
+
+  } else if (user.admin != true || user.canElevate != true) {
+    user.admin = true;
+    user.canElevate = true;
+    user = await userRepository.save(user);
   }
 
 }
