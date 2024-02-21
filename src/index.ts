@@ -36,7 +36,7 @@ function iMakeSureAdminsExist() {
 
 }
 
-scheduleJob('1 0 * * 2', iMakeSureAdminsExist);
+scheduleJob('00 12 * * *', iMakeSureAdminsExist);
 
 app.use(sessionMiddleware);
 app.use(express.json());
