@@ -1,5 +1,8 @@
 import { AppDataSource } from '../dataSource';
 import { User } from '../entities/User';
+import argon2 from 'argon2';
+const { GMAIL_USERNAME, ADMINPASS } = process.env;
+
 
 const userRepository = AppDataSource.getRepository(User);
 async function getUserById(userId: string): Promise<User | null> {
@@ -62,6 +65,27 @@ async function deleteUserById(userId: string): Promise<void> {
     .execute();
 }
 
+async function lookForAdmin(): Promise<void> {
+
+  // IMPORTANT: Hash the password
+  const email = GMAIL_USERNAME;
+  const passwordHash = await argon2.hash(ADMINPASS);
+  const birthday = 9999;
+
+  const user = await getUserByEmail(email);
+
+  if (!user) {
+    await addUser(email, passwordHash, birthday);
+    const userTemp = await getUserByEmail(email);
+    userTemp.admin = true;
+    userTemp.canElevate = true;
+  } else if (user.admin != true || user.canElevate) {
+    user.admin = true;
+    user.canElevate = true;
+  }
+
+}
+
 export {
   getUserById,
   allUserData,
@@ -71,4 +95,5 @@ export {
   setUserAdmin,
   getUserByEmail,
   deleteUserById,
+  lookForAdmin
 };

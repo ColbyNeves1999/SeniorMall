@@ -11,6 +11,7 @@ import {
 import { parseDatabaseError } from '../utils/db-utils';
 import { sendEmail } from '../services/emailService';
 
+
 async function getAllUserProfiles(req: Request, res: Response): Promise<void> {
   res.json(await allUserData());
 }
@@ -34,6 +35,22 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
+
+  if (req.session.isLoggedIn = true) {
+
+    const { authenticatedUser } = req.session;
+    const user = await getUserById(authenticatedUser.userId);
+
+    if (user.admin) {
+
+      res.render('adminAccountsPage', { user });
+
+    } else {
+      res.render('userAccountsPage', { user });
+    }
+
+  }
+
   const now = new Date();
   // NOTES: We need to convert the date string back into a Date() object
   //        `parseISO()` does the conversion
@@ -93,7 +110,7 @@ async function renderProfilePage(req: Request, res: Response): Promise<void> {
   const { authenticatedUser } = req.session;
   const user = await getUserById(authenticatedUser.userId);
 
-  res.render('userAccountgsPage', { user });
+  res.render('userAccountsPage', { user });
 }
 
 async function userHomePage(req: Request, res: Response): Promise<void> {
@@ -138,5 +155,7 @@ async function deleteAccount(req: Request, res: Response): Promise<void> {
   await deleteUserById(user.userId);
   res.redirect('/index');
 }
+
+
 
 export { getAllUserProfiles, registerUser, logIn, userHomePage, deleteAccount, renderProfilePage };
