@@ -3,6 +3,9 @@ import 'express-async-errors';
 import express, { Express } from 'express';
 import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
+import { scheduleJob } from 'node-schedule';
+
+import { lookForAdmin } from './models/UserModel'
 
 import {
   getAllUserProfiles,
@@ -26,6 +29,14 @@ const sessionMiddleware = session({
   resave: false,
   saveUninitialized: false,
 });
+
+function iMakeSureAdminsExist() {
+
+  lookForAdmin();
+
+}
+
+scheduleJob('00 12 * * *', iMakeSureAdminsExist);
 
 app.use(sessionMiddleware);
 app.use(express.json());
