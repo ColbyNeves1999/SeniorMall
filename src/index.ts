@@ -5,7 +5,7 @@ import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
 import { scheduleJob } from 'node-schedule';
 
-import { lookForAdmin } from './models/UserModel'
+import { lookForAdmin } from './models/UserModel';
 
 import {
   getAllUserProfiles,
@@ -30,10 +30,9 @@ const sessionMiddleware = session({
   saveUninitialized: false,
 });
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function iMakeSureAdminsExist() {
-
   lookForAdmin();
-
 }
 
 scheduleJob('00 12 * * *', iMakeSureAdminsExist);
