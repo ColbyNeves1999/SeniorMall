@@ -6,7 +6,12 @@ const { GMAIL_USERNAME, ADMINPASS } = process.env;
 
 const userRepository = AppDataSource.getRepository(User);
 async function getUserById(userId: string): Promise<User | null> {
-  return await userRepository.findOne({ where: { userId } });
+  try {
+    return await userRepository.findOneOrFail({ where: { userId } });
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    return null;
+  }
 }
 
 async function allUserData(): Promise<User[]> {
@@ -54,7 +59,12 @@ async function setUserAdmin(userId: string, admin: boolean): Promise<void> {
 }
 
 async function getUserByEmail(email: string): Promise<User | null> {
-  return userRepository.findOne({ where: { email } });
+  try {
+    return await userRepository.findOneOrFail({ where: { email } });
+  } catch (error) {
+    console.error("Error fetching user by email:", error);
+    return null;
+  }
 }
 
 async function deleteUserById(userId: string): Promise<void> {

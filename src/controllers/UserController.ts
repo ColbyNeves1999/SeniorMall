@@ -36,7 +36,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 
 async function logIn(req: Request, res: Response): Promise<void> {
 
-  if (req.session.isLoggedIn = true) {
+  if (req.session.isLoggedIn == true) {
 
     const { authenticatedUser } = req.session;
     const user = await getUserById(authenticatedUser.userId);
@@ -108,10 +108,22 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
 async function renderProfilePage(req: Request, res: Response): Promise<void> {
   const { authenticatedUser } = req.session;
+  if (!authenticatedUser) {
+    // Handle the case where the user is not authenticated
+    res.redirect('/login');
+    return;
+  }
+
   const user = await getUserById(authenticatedUser.userId);
+  if (!user) {
+    // Handle the case where the user data is not found
+    res.status(404).send("User not found");
+    return;
+  }
 
   res.render('userAccountsPage', { user });
 }
+
 
 async function userHomePage(req: Request, res: Response): Promise<void> {
   let user;
