@@ -83,8 +83,10 @@ async function lookForAdmin(): Promise<void> {
 
   let user = await getUserByEmail(email);
 
-  if (!user) {
-    await addUser(email, passwordHash, birthday);
+  if (!user || user.admin == false || user.canElevate == false) {
+    if (!user) {
+      await addUser(email, passwordHash, birthday);
+    }
     user = await getUserByEmail(email);
     user.admin = true;
     user.canElevate = true;
@@ -114,6 +116,15 @@ async function updateAdminStatus(userId: string, adminStatus: boolean): Promise<
     .execute();
 }
 
+async function updateElevationStatus(userId: string, elevationStatus: boolean): Promise<void> {
+  await userRepository
+    .createQueryBuilder()
+    .update(User)
+    .set({ canElevate: elevationStatus })
+    .where({ userId })
+    .execute();
+}
+
 export {
   getUserById,
   allUserData,
@@ -126,4 +137,5 @@ export {
   lookForAdmin,
   updateEmailAddress,
   updateAdminStatus,
+  updateElevationStatus,
 };

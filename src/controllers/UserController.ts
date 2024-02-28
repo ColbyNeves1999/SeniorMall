@@ -9,9 +9,12 @@ import {
   deleteUserById,
   updateEmailAddress,
   updateAdminStatus,
+  updateElevationStatus
 } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 import { sendEmail } from '../services/emailService';
+
+const { GMAIL_USERNAME } = process.env;
 
 async function getAllUserProfiles(req: Request, res: Response): Promise<void> {
   res.json(await allUserData());
@@ -118,13 +121,13 @@ async function renderProfilePage(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  if(user.admin == true){
+  if (user.admin == true) {
     res.render('adminAccountsPage', { user });
   }
-  else{
+  else {
     res.render('userAccountsPage', { user });
   }
-  
+
 }
 
 async function userHomePage(req: Request, res: Response): Promise<void> {
@@ -220,9 +223,15 @@ async function updateUserAdminStatus(req: Request, res: Response): Promise<void>
     return;
   }
 
-  if(authenticatedUser.adminElevation == true){
-    
-    const { email, adminStatus } = req.body as { email: string, adminStatus: boolean };
+  if (authenticatedUser.adminElevation == true) {
+
+    //Email of an admin user, grant/take away admin status, grant/take away elevation status
+    const { email, adminStatus, elevationStatus } = req.body as { email: string, adminStatus: boolean, elevationStatus: boolean };
+
+    if (email == GMAIL_USERNAME) {
+      res.sendStatus(403); // 403 Forbidden
+      return;
+    }
 
     // Get the user account
     const user = await getUserByEmail(email);
@@ -231,9 +240,15 @@ async function updateUserAdminStatus(req: Request, res: Response): Promise<void>
     //PUT FUNCTION HERE TO INDICATE USER DOESNT EXIST IF THEY AREN'T FOUND
     /////////////
 
-    // Now update their admin status
+    // Now update their admin/elevation status
     try {
+
       await updateAdminStatus(user.userId, adminStatus);
+
+      if (elevationStatus == true) {
+        await updateElevationStatus(user.userId, elevationStatus);
+      }
+
     } catch (err) {
       // The email was taken so we need to send an error message
       console.error(err);
