@@ -116,7 +116,13 @@ async function renderProfilePage(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  res.render('userAccountsPage', { user });
+  if(user.admin == true){
+    res.render('adminAccountsPage', { user });
+  }
+  else{
+    res.render('userAccountsPage', { user });
+  }
+  
 }
 
 async function userHomePage(req: Request, res: Response): Promise<void> {
