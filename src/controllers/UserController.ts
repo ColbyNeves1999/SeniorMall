@@ -8,6 +8,7 @@ import {
   allUserData,
   deleteUserById,
   updateEmailAddress,
+  updateAdminStatus,
 } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 import { sendEmail } from '../services/emailService';
@@ -96,6 +97,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
   req.session.authenticatedUser = {
     email: user.email,
     userId: user.userId,
+    adminElevation: user.canElevate,
   };
   req.session.isLoggedIn = true;
   res.redirect('/users/userAccountsPage');
@@ -205,6 +207,46 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
   res.sendStatus(200);
 }
 
+async function updateUserAdminStatus(req: Request, res: Response): Promise<void> {
+  const { targetUserId } = req.params as UserIdParam;
+
+  // NOTES: Access the data from `req.session`
+  const { isLoggedIn, authenticatedUser } = req.session;
+
+  // NOTES: We need to make sure that this client is logged in AND
+  //        they are try to modify their own user account
+  if (!isLoggedIn || authenticatedUser.userId !== targetUserId) {
+    res.sendStatus(403); // 403 Forbidden
+    return;
+  }
+
+  if(authenticatedUser.adminElevation == true){
+    
+    const { email, adminStatus } = req.body as { email: string, adminStatus: boolean };
+
+    // Get the user account
+    const user = await getUserByEmail(email);
+
+    /////////////
+    //PUT FUNCTION HERE TO INDICATE USER DOESNT EXIST IF THEY AREN'T FOUND
+    /////////////
+
+    // Now update their admin status
+    try {
+      await updateAdminStatus(user.userId, adminStatus);
+    } catch (err) {
+      // The email was taken so we need to send an error message
+      console.error(err);
+      const databaseErrorMessage = parseDatabaseError(err);
+      res.status(500).json(databaseErrorMessage);
+      return;
+    }
+
+  }
+
+  res.sendStatus(200);
+}
+
 export {
   getAllUserProfiles,
   registerUser,
@@ -213,4 +255,5 @@ export {
   deleteAccount,
   renderProfilePage,
   updateUserEmail,
+  updateUserAdminStatus,
 };

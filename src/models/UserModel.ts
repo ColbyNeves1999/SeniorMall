@@ -104,6 +104,16 @@ async function updateEmailAddress(userId: string, newEmail: string): Promise<voi
     .where({ userId })
     .execute();
 }
+
+async function updateAdminStatus(userId: string, adminStatus: boolean): Promise<void> {
+  await userRepository
+    .createQueryBuilder()
+    .update(User)
+    .set({ admin: adminStatus })
+    .where({ userId })
+    .execute();
+}
+
 export {
   getUserById,
   allUserData,
@@ -115,4 +125,5 @@ export {
   deleteUserById,
   lookForAdmin,
   updateEmailAddress,
+  updateAdminStatus,
 };
