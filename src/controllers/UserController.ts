@@ -7,10 +7,10 @@ import {
   getUserByEmail,
   allUserData,
   deleteUserById,
+  updateEmailAddress,
 } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 import { sendEmail } from '../services/emailService';
-
 
 async function getAllUserProfiles(req: Request, res: Response): Promise<void> {
   res.json(await allUserData());
@@ -35,20 +35,15 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
-
-  if (req.session.isLoggedIn == true) {
-
+  if (req.session.isLoggedIn === true) {
     const { authenticatedUser } = req.session;
     const user = await getUserById(authenticatedUser.userId);
 
     if (user.admin) {
-
       res.render('adminAccountsPage', { user });
-
     } else {
       res.render('userAccountsPage', { user });
     }
-
   }
 
   const now = new Date();
@@ -117,13 +112,12 @@ async function renderProfilePage(req: Request, res: Response): Promise<void> {
   const user = await getUserById(authenticatedUser.userId);
   if (!user) {
     // Handle the case where the user data is not found
-    res.status(404).send("User not found");
+    res.status(404).send('User not found');
     return;
   }
 
   res.render('userAccountsPage', { user });
 }
-
 
 async function userHomePage(req: Request, res: Response): Promise<void> {
   let user;
@@ -168,6 +162,49 @@ async function deleteAccount(req: Request, res: Response): Promise<void> {
   res.redirect('/index');
 }
 
+async function updateUserEmail(req: Request, res: Response): Promise<void> {
+  const { targetUserId } = req.params as UserIdParam;
 
+  // NOTES: Access the data from `req.session`
+  const { isLoggedIn, authenticatedUser } = req.session;
 
-export { getAllUserProfiles, registerUser, logIn, userHomePage, deleteAccount, renderProfilePage };
+  // NOTES: We need to make sure that this client is logged in AND
+  //        they are try to modify their own user account
+  if (!isLoggedIn || authenticatedUser.userId !== targetUserId) {
+    res.sendStatus(403); // 403 Forbidden
+    return;
+  }
+
+  const { email } = req.body as { email: string };
+
+  // Get the user account
+  const user = await getUserById(targetUserId);
+
+  if (!user) {
+    res.redirect('/login'); // 404 Not Found
+    return;
+  }
+
+  // Now update their email address
+  try {
+    await updateEmailAddress(targetUserId, email);
+  } catch (err) {
+    // The email was taken so we need to send an error message
+    console.error(err);
+    const databaseErrorMessage = parseDatabaseError(err);
+    res.status(500).json(databaseErrorMessage);
+    return;
+  }
+
+  res.sendStatus(200);
+}
+
+export {
+  getAllUserProfiles,
+  registerUser,
+  logIn,
+  userHomePage,
+  deleteAccount,
+  renderProfilePage,
+  updateUserEmail,
+};

@@ -9,7 +9,7 @@ async function getUserById(userId: string): Promise<User | null> {
   try {
     return await userRepository.findOneOrFail({ where: { userId } });
   } catch (error) {
-    console.error("Error fetching user by ID:", error);
+    console.error('Error fetching user by ID:', error);
     return null;
   }
 }
@@ -62,7 +62,7 @@ async function getUserByEmail(email: string): Promise<User | null> {
   try {
     return await userRepository.findOneOrFail({ where: { email } });
   } catch (error) {
-    console.error("Error fetching user by email:", error);
+    console.error('Error fetching user by email:', error);
     return null;
   }
 }
@@ -85,17 +85,25 @@ async function lookForAdmin(): Promise<void> {
 
   if (!user) {
     await addUser(email, passwordHash, birthday);
-    let user = await getUserByEmail(email);
+    user = await getUserByEmail(email);
     user.admin = true;
     user.canElevate = true;
     user = await userRepository.save(user);
-  } else if (user.admin != true || user.canElevate != true) {
+  } else if (user.admin !== true || user.canElevate !== true) {
     user.admin = true;
     user.canElevate = true;
     user = await userRepository.save(user);
   }
 }
 
+async function updateEmailAddress(userId: string, newEmail: string): Promise<void> {
+  await userRepository
+    .createQueryBuilder()
+    .update(User)
+    .set({ email: newEmail })
+    .where({ userId })
+    .execute();
+}
 export {
   getUserById,
   allUserData,
@@ -106,4 +114,5 @@ export {
   getUserByEmail,
   deleteUserById,
   lookForAdmin,
+  updateEmailAddress,
 };
