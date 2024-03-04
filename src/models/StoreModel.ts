@@ -40,4 +40,8 @@ async function getStoreByLocation(location: string): Promise<Store | null> {
   return storeRepository.findOne({ where: { location } });
 }
 
-export { addStore, setStoreLocation, setStorePhone, getStoreById, getStoreByLocation };
+async function getStoreByName(storeName: string): Promise<Store | null> {
+  return storeRepository.findOne({ where: { storeName } });
+}
+
+export { addStore, setStoreLocation, setStorePhone, getStoreById, getStoreByLocation, getStoreByName };

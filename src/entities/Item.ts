@@ -18,4 +18,5 @@ export class Item {
 
   @ManyToOne(() => Store, (store) => store.items)
   store: Relation<Store>;
+
 }

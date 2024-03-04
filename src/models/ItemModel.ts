@@ -1,21 +1,34 @@
 import { AppDataSource } from '../dataSource';
 import { Item } from '../entities/Item';
+import { Store } from '../entities/Store';
+
+import { getStoreByName } from './StoreModel';
 
 const itemRepository = AppDataSource.getRepository(Item);
+const storeRepository = AppDataSource.getRepository(Store);
 
 async function getItemById(itemId: string): Promise<Item | null> {
   return await itemRepository.findOne({ where: { itemId } });
 }
 
-async function addItem(itemName: string): Promise<Item> {
+async function addItem(itemName: string, itemStock: number, itemDescription: string, associatedStore: string): Promise<Item> {
+
+  const thisStore = await getStoreByName(associatedStore);
+
   // Create the new item object and saves data
   let newItem = new Item();
   newItem.itemName = itemName;
+  newItem.stock = itemStock;
+  newItem.description = itemDescription;
+  newItem.store = thisStore;
 
   // Then save it to the database
   // NOTES: We reassign to `newItem` so we can access
   // NOTES: the fields the database autogenerates (the id & default columns)
   newItem = await itemRepository.save(newItem);
+  thisStore.items.push(newItem);
+  await storeRepository.save(thisStore);
+
 
   return newItem;
 }
