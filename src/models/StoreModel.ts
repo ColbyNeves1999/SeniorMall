@@ -51,4 +51,11 @@ async function getStoreByName(storeName: string): Promise<Store | null> {
   return storeRepository.findOne({ where: { storeName } });
 }
 
-export { addStore, setStoreLocation, setStorePhone, getStoreById, getStoreByLocation, getStoreByName };
+export {
+  addStore,
+  setStoreLocation,
+  setStorePhone,
+  getStoreById,
+  getStoreByLocation,
+  getStoreByName,
+};

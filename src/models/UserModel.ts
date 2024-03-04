@@ -83,7 +83,7 @@ async function lookForAdmin(): Promise<void> {
 
   let user = await getUserByEmail(email);
 
-  if (!user || user.admin == false || user.canElevate == false) {
+  if (!user || user.admin === false || user.canElevate === false) {
     if (!user) {
       await addUser(email, passwordHash, birthday);
     }
