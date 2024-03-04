@@ -24,7 +24,6 @@ async function addStore(
   // NOTES: We reassign to `newStore` so we can access
   // NOTES: the fields the database autogenerates (the id & default columns)
   newStore = await storeRepository.save(newStore);
-  console.log('5');
   return newStore;
 }
 
