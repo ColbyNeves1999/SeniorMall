@@ -7,16 +7,24 @@ async function getStoreById(storeId: string): Promise<Store | null> {
   return await storeRepository.findOne({ where: { storeId } });
 }
 
-async function addStore(mallname: string): Promise<Store> {
+async function addStore(
+  storeName: string,
+  location: string,
+  phone: string,
+  email: string
+): Promise<Store> {
   // Create the new store object and saves data
   let newStore = new Store();
-  newStore.storeName = mallname;
+  newStore.storeName = storeName;
+  newStore.location = location;
+  newStore.phone = phone;
+  newStore.email = email;
 
   // Then save it to the database
   // NOTES: We reassign to `newStore` so we can access
   // NOTES: the fields the database autogenerates (the id & default columns)
   newStore = await storeRepository.save(newStore);
-
+  console.log('5');
   return newStore;
 }
 

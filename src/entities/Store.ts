@@ -18,6 +18,9 @@ export class Store {
   @Column({ unique: true })
   phone: string;
 
+  @Column({ unique: true })
+  email: string;
+
   @OneToMany(() => Item, (item) => item.store)
   items: Relation<Item>[];
 
