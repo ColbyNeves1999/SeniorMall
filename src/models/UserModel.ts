@@ -96,6 +96,7 @@ async function lookForAdmin(): Promise<void> {
     user.canElevate = true;
     user = await userRepository.save(user);
   }
+
 }
 
 async function updateEmailAddress(userId: string, newEmail: string): Promise<void> {

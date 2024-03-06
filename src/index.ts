@@ -16,6 +16,8 @@ import {
   renderProfilePage,
 } from './controllers/UserController';
 
+import { mallCreator } from './controllers/StoreController';
+
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
 
@@ -35,7 +37,7 @@ function iMakeSureAdminsExist() {
   lookForAdmin();
 }
 
-scheduleJob('00 12 * * *', iMakeSureAdminsExist);
+scheduleJob('20 8 * * *', iMakeSureAdminsExist);
 
 app.use(sessionMiddleware);
 app.use(express.json());
@@ -54,6 +56,8 @@ app.get('/users/userAccountsPage', renderProfilePage);
 app.post('/users/delete', deleteAccount);
 
 app.get('/userHomepage', userHomePage); // Displays the user's homepage
+
+app.post('/createStore', mallCreator);
 
 // Route to handle GET requests to "/search"
 app.get('/search', (req, res) => {
