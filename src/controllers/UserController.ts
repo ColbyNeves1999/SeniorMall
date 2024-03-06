@@ -151,6 +151,7 @@ async function deleteAccount(req: Request, res: Response): Promise<void> {
   }
 
   const user = await getUserByEmail(email);
+
   if (!user) {
     res.redirect('/users/userAccountsPage'); // 404 Not Found - email doesn't exist
     return;

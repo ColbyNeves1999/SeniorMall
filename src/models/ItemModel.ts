@@ -41,8 +41,14 @@ async function setItemStock(itemId: string, stock: number): Promise<void> {
   item = await itemRepository.save(item);
 }
 
+async function updateItemStock(item: Item, stock: number): Promise<void> {
+  item.stock = item.stock + stock;
+
+  item = await itemRepository.save(item);
+}
+
 async function getUserByName(itemName: string): Promise<Item | null> {
   return itemRepository.findOne({ where: { itemName } });
 }
 
-export { getItemById, getItemByName, addItem, setItemStock, getUserByName };
+export { getItemById, getItemByName, addItem, setItemStock, getUserByName, updateItemStock };
