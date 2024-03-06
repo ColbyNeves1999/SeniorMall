@@ -19,7 +19,6 @@
     <nav>
         <ul>
             <li><a href="/index">Home</a></li>
-            <li><a href="/profile">Profile</a></li>
             <li><a href="/settings">Settings</a></li>
             <li><a href="/index">Logout</a></li>
         </ul>
@@ -29,11 +28,21 @@
         <section id="profile-info">
             <h2>Your Profile Information:</h2>
             <ul>
-                <li><strong>User ID:</strong> <%= user.userId %></li>
-                <li><strong>Email:</strong> <%= user.email %></li>
-                <li><strong>Address:</strong> <%= user.address || 'Not provided' %></li>
-                <li><strong>Birthday:</strong> <%= user.birthday ? new Date(user.birthday).toLocaleDateString() : 'Not provided' %></li>
-                <li><strong>Admin Status:</strong> <%= user.admin ? 'Yes' : 'No' %></li>
+                <li><strong>User ID:</strong>
+                    <%= user.userId %>
+                </li>
+                <li><strong>Email:</strong>
+                    <%= user.email %>
+                </li>
+                <li><strong>Address:</strong>
+                    <%= user.address || 'Not provided' %>
+                </li>
+                <li><strong>Birthday:</strong>
+                    <%= user.birthday ? new Date(user.birthday).toLocaleDateString() : 'Not provided' %>
+                </li>
+                <li><strong>Admin Status:</strong>
+                    <%= user.admin ? 'Yes' : 'No' %>
+                </li>
             </ul>
         </section>
     </main>
