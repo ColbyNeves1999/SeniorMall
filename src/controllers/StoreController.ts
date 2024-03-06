@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 import {addStore, getStoreByName} from '../models/StoreModel';
 
-async function mallCreator(req: Request, res: Response): Promise<void> {
+async function storeCreator(req: Request, res: Response): Promise<void> {
     
     const { storeName, location, phone, email } = req.body as NewStoreRequest;
   
@@ -17,4 +17,4 @@ async function mallCreator(req: Request, res: Response): Promise<void> {
 
   }
 
-export { mallCreator };
+export { storeCreator };

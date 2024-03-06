@@ -21,7 +21,7 @@ export class Store {
   @Column({ unique: true })
   email: string;
 
-  @OneToMany(() => Item, (item) => item.store)
+  @OneToMany(() => Item, (item) => item.store, { cascade: ['insert', 'update'] })
   items: Relation<Item>[];
 
   @ManyToMany(() => Mall, (mall) => mall.stores, { cascade: ['insert', 'update'] })

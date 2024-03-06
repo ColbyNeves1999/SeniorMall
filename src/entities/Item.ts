@@ -7,13 +7,13 @@ export class Item {
   @PrimaryGeneratedColumn('uuid')
   itemId: string;
 
-  @Column()
+  @Column({ default: null })
   itemName: string;
 
-  @Column()
+  @Column({ default: null })
   stock: number;
 
-  @Column()
+  @Column({ default: null })
   description: string;
 
   @ManyToOne(() => Store, (store) => store.items)

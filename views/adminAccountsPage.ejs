@@ -66,7 +66,26 @@
                 </form>
               </div>
         </section>
+        <section>
+            <div class = "form">
+                <form method="POST" action="/createitem">
+            
+                  <label for = "itemName"></label>
+                  <input name = "itemName" id = "itemName" class = "itemName" placeholder = "Name" type = "itemName" required>
+            
+                  <label for = "itemStock"></label>
+                  <input name = "itemStock" id = "itemStock" class = "itemStock" placeholder = "Stock" type = "itemStock" required>
 
+                  <label for = "itemDescription"></label>
+                  <input name = "itemDescription" id = "itemDescription" class = "itemDescription" placeholder = "Description" type = "itemDescription" required>
+
+                  <label for = "associatedStore"></label>
+                  <input name = "associatedStore" id = "associatedStore" class = "associatedStore" placeholder = "Store" type = "associatedStore" required>
+                    
+                  <button class = "btn">Create Item</button>
+                </form>
+              </div>
+        </section>
 
     </main>
 

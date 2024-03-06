@@ -16,7 +16,8 @@ import {
   renderProfilePage,
 } from './controllers/UserController';
 
-import { mallCreator } from './controllers/StoreController';
+import { storeCreator } from './controllers/StoreController';
+import { itemCreator } from './controllers/ItemController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -57,7 +58,8 @@ app.post('/users/delete', deleteAccount);
 
 app.get('/userHomepage', userHomePage); // Displays the user's homepage
 
-app.post('/createStore', mallCreator);
+app.post('/createStore', storeCreator);
+app.post('/createitem', itemCreator);
 
 // Route to handle GET requests to "/search"
 app.get('/search', (req, res) => {
