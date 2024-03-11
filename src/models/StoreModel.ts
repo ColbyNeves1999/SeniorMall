@@ -6,6 +6,9 @@ const storeRepository = AppDataSource.getRepository(Store);
 async function getStoreById(storeId: string): Promise<Store | null> {
   return await storeRepository.findOne({ where: { storeId } });
 }
+async function getAllStores(): Promise<Store[]> {
+  return storeRepository.find();
+}
 
 async function addStore(
   storeName: string,
@@ -51,11 +54,27 @@ async function getStoreByName(storeName: string): Promise<Store | null> {
   return storeRepository.findOne({ where: { storeName } });
 }
 
+// To see how many people viewed each store
+async function incrementProfileViews(storeData: Store): Promise<Store> {
+  const updatedStore = storeData;
+  updatedStore.profileViews += 1;
+
+  await storeRepository
+    .createQueryBuilder()
+    .update(Store)
+    .set({ profileViews: updatedStore.profileViews })
+    .where({ storeId: updatedStore.storeId })
+    .execute();
+
+  return updatedStore;
+}
 export {
   addStore,
+  getAllStores,
   setStoreLocation,
   setStorePhone,
   getStoreById,
   getStoreByLocation,
   getStoreByName,
+  incrementProfileViews,
 };

@@ -58,6 +58,7 @@ app.get('/users/userAccountsPage', renderProfilePage);
 app.post('/users/delete', deleteAccount);
 app.post('/users/changePassword', updateUserPassword);
 
+
 app.get('/userHomepage', userHomePage); // Displays the user's homepage
 
 app.post('/createStore', storeCreator);
