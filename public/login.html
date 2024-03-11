@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <link rel="stylesheet" href="/css/style.css" />
   <meta charset="UTF-8">
@@ -7,32 +8,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Log In | Senior Mall</title>
 </head>
-<body >
-  <div class = "formCard">
-    <section class = "form-container">
+
+<body>
+  <div class="formCard">
+    <section class="form-container">
       <div>
-        <h1 class = "title gradient-text">
+        <h1 class="title gradient-text">
           SeniorMall
+
+          <a href="/index" class="btn">
+            Home
+          </a>
         </h1>
 
         <h2>
           Log in
         </h2>
+
       </div>
 
-  <div class = "form">
-    <form method="POST" action="/login">
+      <div class="form">
+        <form method="POST" action="/login">
 
-      <label for = "email"></label>
-      <input name = "email" id = "email" class = "email" placeholder = "Email" type = "email" required>
+          <label for="email"></label>
+          <input name="email" id="email" class="email" placeholder="Email" type="email" required>
 
-      <label for = "password"></label>
-      <input name = "password" id = "password" class = "password" placeholder = "Password" type = "password" required>
+          <label for="password"></label>
+          <input name="password" id="password" class="password" placeholder="Password" type="password" required>
 
-      <button class = "btn">Log In</button>
-    </form>
-  </div>
+          <button class="btn">Log In</button>
+        </form>
+      </div>
     </section>
   </div>
 </body>
+
 </html>

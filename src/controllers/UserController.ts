@@ -211,14 +211,14 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
 }
 
 async function updateUserPassword(req: Request, res: Response): Promise<void> {
-  const { targetUserId } = req.params as UserIdParam;
+  //const { targetUserId } = req.params as UserIdParam;
 
   // NOTES: Access the data from `req.session`
   const { isLoggedIn, authenticatedUser } = req.session;
 
   // NOTES: We need to make sure that this client is logged in AND
   //        they are try to modify their own user account
-  if (!isLoggedIn || authenticatedUser.userId !== targetUserId) {
+  if (!isLoggedIn) {
     res.sendStatus(403); // 403 Forbidden
     return;
   }
@@ -226,7 +226,7 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
   const { passwordHash } = req.body as { passwordHash: string };
 
   // Get the user account
-  const user = await getUserById(targetUserId);
+  const user = await getUserById(authenticatedUser.userId);
 
   if (!user) {
     res.redirect('/login'); // 404 Not Found
@@ -235,7 +235,7 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
 
   // Now update their password
   try {
-    await changePassword(targetUserId, passwordHash);
+    await changePassword(authenticatedUser.userId, passwordHash);
   } catch (err) {
     // The email was taken so we need to send an error message
     console.error(err);
