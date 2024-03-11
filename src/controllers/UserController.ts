@@ -23,7 +23,6 @@ async function getAllUserProfiles(req: Request, res: Response): Promise<void> {
 
 async function registerUser(req: Request, res: Response): Promise<void> {
   const { email, password, birthday } = req.body as NewUserRequest;
-
   // IMPORTANT: Hash the password
   const passwordHash = await argon2.hash(password);
 
@@ -32,8 +31,10 @@ async function registerUser(req: Request, res: Response): Promise<void> {
     await addUser(email, passwordHash, birthday);
     await sendEmail(email, 'Welcome!', 'You have successfully created your account!');
     res.redirect('/login');
+
   } catch (err) {
     console.error(err);
+    //Make sure email password in .env is correct if getting errors
     const databaseErrorMessage = parseDatabaseError(err);
     res.status(500).json(databaseErrorMessage);
   }
