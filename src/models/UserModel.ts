@@ -96,7 +96,6 @@ async function lookForAdmin(): Promise<void> {
     user.canElevate = true;
     user = await userRepository.save(user);
   }
-
 }
 
 async function updateEmailAddress(userId: string, newEmail: string): Promise<void> {
@@ -104,6 +103,15 @@ async function updateEmailAddress(userId: string, newEmail: string): Promise<voi
     .createQueryBuilder()
     .update(User)
     .set({ email: newEmail })
+    .where({ userId })
+    .execute();
+}
+
+async function changePassword(userId: string, newPassword: string): Promise<void> {
+  await userRepository
+    .createQueryBuilder()
+    .update(User)
+    .set({ passwordHash: newPassword })
     .where({ userId })
     .execute();
 }
@@ -139,4 +147,5 @@ export {
   updateEmailAddress,
   updateAdminStatus,
   updateElevationStatus,
+  changePassword,
 };

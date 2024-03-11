@@ -10,6 +10,7 @@ import {
   updateEmailAddress,
   updateAdminStatus,
   updateElevationStatus,
+  changePassword,
 } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 import { sendEmail } from '../services/emailService';
@@ -209,6 +210,42 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
   res.sendStatus(200);
 }
 
+async function updateUserPassword(req: Request, res: Response): Promise<void> {
+  const { targetUserId } = req.params as UserIdParam;
+
+  // NOTES: Access the data from `req.session`
+  const { isLoggedIn, authenticatedUser } = req.session;
+
+  // NOTES: We need to make sure that this client is logged in AND
+  //        they are try to modify their own user account
+  if (!isLoggedIn || authenticatedUser.userId !== targetUserId) {
+    res.sendStatus(403); // 403 Forbidden
+    return;
+  }
+
+  const { passwordHash } = req.body as { passwordHash: string };
+
+  // Get the user account
+  const user = await getUserById(targetUserId);
+
+  if (!user) {
+    res.redirect('/login'); // 404 Not Found
+    return;
+  }
+
+  // Now update their password
+  try {
+    await changePassword(targetUserId, passwordHash);
+  } catch (err) {
+    // The email was taken so we need to send an error message
+    console.error(err);
+    const databaseErrorMessage = parseDatabaseError(err);
+    res.status(500).json(databaseErrorMessage);
+    return;
+  }
+
+  res.sendStatus(200);
+}
 async function updateUserAdminStatus(req: Request, res: Response): Promise<void> {
   const { targetUserId } = req.params as UserIdParam;
 
@@ -269,5 +306,6 @@ export {
   deleteAccount,
   renderProfilePage,
   updateUserEmail,
+  updateUserPassword,
   updateUserAdminStatus,
 };

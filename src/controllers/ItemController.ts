@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import { getItemByName, addItem, updateItemStock } from '../models/ItemModel';
 
 async function itemCreator(req: Request, res: Response): Promise<void> {
-
   const { itemName, stock, itemDescription, storeName } = req.body as NewItemRequest;
 
   const itemExists = await getItemByName(itemName);
@@ -15,26 +14,21 @@ async function itemCreator(req: Request, res: Response): Promise<void> {
   }
 
   res.redirect('/users/userAccountsPage');
-
 }
 
 async function itemStockModifier(req: Request, res: Response): Promise<void> {
-
-  //Store name is taken for verification purposes that will be added later
+  // Store name is taken for verification purposes that will be added later
   const { itemName, stock, storeName } = req.body as NewItemRequest;
 
   const itemExists = await getItemByName(itemName);
 
-
-
   if (!itemExists) {
-    //Need to add something to do if item doesn't exist, such as alert user//
+    // Need to add something to do if item doesn't exist, such as alert user//
   } else {
     await updateItemStock(itemExists, stock);
   }
 
   res.redirect('/users/userAccountsPage');
-
 }
 
 export { itemCreator, itemStockModifier };
