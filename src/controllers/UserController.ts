@@ -23,11 +23,12 @@ async function getAllUserProfiles(req: Request, res: Response): Promise<void> {
 
 async function registerUser(req: Request, res: Response): Promise<void> {
   const { email, password, birthday } = req.body as NewUserRequest;
-  // IMPORTANT: Hash the password
+
+  // Hashes the password
   const passwordHash = await argon2.hash(password);
 
   try {
-    // IMPORTANT: Store the `passwordHash` and NOT the plaintext password
+    // Stores the hash in the place of the password
     await addUser(email, passwordHash, birthday);
     await sendEmail(email, 'Welcome!', 'You have successfully created your account!');
     res.redirect('/login');
@@ -110,6 +111,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
 async function renderProfilePage(req: Request, res: Response): Promise<void> {
   const { authenticatedUser } = req.session;
+
   if (!authenticatedUser) {
     // Handle the case where the user is not authenticated
     res.redirect('/login');
@@ -123,14 +125,17 @@ async function renderProfilePage(req: Request, res: Response): Promise<void> {
     return;
   }
 
+  //Allows a user to access the admin page if they're an admin
   if (user.admin === true) {
     res.render('adminAccountsPage', { user });
   } else {
     res.render('userAccountsPage', { user });
   }
+
 }
 
 async function userHomePage(req: Request, res: Response): Promise<void> {
+
   let user;
 
   if (req.session.isLoggedIn) {
@@ -141,6 +146,7 @@ async function userHomePage(req: Request, res: Response): Promise<void> {
   }
 
   res.render('userAccountsPage', { user });
+
 }
 
 async function deleteAccount(req: Request, res: Response): Promise<void> {
@@ -246,6 +252,7 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
   res.render('userAccountsPage', { user });
   //res.sendStatus(200);
 }
+
 async function updateUserAdminStatus(req: Request, res: Response): Promise<void> {
   const { targetUserId } = req.params as UserIdParam;
 
