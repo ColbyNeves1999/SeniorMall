@@ -13,7 +13,23 @@
 
 <body>
     <header>
-        <h1>Welcome, <%= user.email %>!</h1>
+        <h1>Welcome, <%= user.email %>!
+
+                <div class="button-container">
+                    <a href="/logout" class="btn">
+                        Log In
+                    </a>
+
+                    <a href="/settings" class="btn">
+                        Settings
+                    </a>
+
+                    <a href="/index" class="btn">
+                        Home
+                    </a>
+                </div>
+
+        </h1>
     </header>
 
     <nav>

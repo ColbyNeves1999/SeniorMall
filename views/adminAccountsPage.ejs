@@ -13,16 +13,32 @@
 
 <body>
     <header>
-        <h1>Welcome, <%= user.email %>!</h1>
+        <h1>Welcome, <%= user.email %>!
+
+                <div class="button-container">
+                    <a href="/logout" class="btn">
+                        Log In
+                    </a>
+
+                    <a href="/settings" class="btn">
+                        Settings
+                    </a>
+
+                    <a href="/index" class="btn">
+                        Home
+                    </a>
+                </div>
+
+        </h1>
     </header>
 
-    <nav>
+    <!--<nav>
         <ul>
             <li><a href="/index">Home</a></li>
             <li><a href="/settings">Settings</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
-    </nav>
+    </nav>-->
 
     <main>
         <section id="profile-info">
