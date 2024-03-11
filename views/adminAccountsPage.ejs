@@ -61,6 +61,9 @@
                 </li>
             </ul>
         </section>
+
+
+        <h2>Add store to the mall</h2>
         <section>
             <div class="form">
                 <form method="POST" action="/createStore">
@@ -83,6 +86,8 @@
                 </form>
             </div>
         </section>
+
+        <h2>Add item to store catalogue</h2>
         <section>
             <div class="form">
                 <form method="POST" action="/createitem">
@@ -103,6 +108,27 @@
                         type="associatedStore" required>
 
                     <button class="btn">Create Item</button>
+                </form>
+            </div>
+        </section>
+
+        <h2>Modify store stock. Submit as positive to add, Negative to subtract.</h2>
+        <section>
+            <div class="form">
+                <form method="POST" action="/itemStockModifier">
+
+                    <label for="itemName"></label>
+                    <input name="itemName" id="itemName" class="itemName" placeholder="Name" type="itemName" required>
+
+                    <label for="itemStock"></label>
+                    <input name="itemStock" id="itemStock" class="itemStock" placeholder="Stock" type="itemStock"
+                        required>
+
+                    <label for="associatedStore"></label>
+                    <input name="associatedStore" id="associatedStore" class="associatedStore" placeholder="Store"
+                        type="associatedStore" required>
+
+                    <button class="btn">Change Stock</button>
                 </form>
             </div>
         </section>

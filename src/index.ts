@@ -17,7 +17,7 @@ import {
 } from './controllers/UserController';
 
 import { storeCreator } from './controllers/StoreController';
-import { itemCreator } from './controllers/ItemController';
+import { itemCreator, itemStockModifier } from './controllers/ItemController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -60,6 +60,7 @@ app.get('/userHomepage', userHomePage); // Displays the user's homepage
 
 app.post('/createStore', storeCreator);
 app.post('/createitem', itemCreator);
+app.post('/itemStockModifier', itemStockModifier);
 
 // Route to handle GET requests to "/search"
 app.get('/search', (req, res) => {
