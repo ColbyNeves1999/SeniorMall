@@ -224,10 +224,8 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
   }
 
   const { passwordHash } = req.body as { passwordHash: string };
-
   // Get the user account
   const user = await getUserById(authenticatedUser.userId);
-
   if (!user) {
     res.redirect('/login'); // 404 Not Found
     return;
@@ -244,7 +242,8 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  res.sendStatus(200);
+  res.render('userAccountsPage', { user });
+  //res.sendStatus(200);
 }
 async function updateUserAdminStatus(req: Request, res: Response): Promise<void> {
   const { targetUserId } = req.params as UserIdParam;
