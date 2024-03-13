@@ -55,14 +55,13 @@
         <img src="/imgs/BookChat.png"  width="300" height="200">
         <p>
         <div style="text-align: center;">
-          <a href="/store1.html" class="btn btn-large">Visit Book Chat</a><br>
-        </div>
-        <i class="bi bi-envelope-fill"></i> BookChat@astate.org<br>
-        <i class="bi bi-telephone-fill"></i> (870) 123-0000<br>
-        <i class="bi bi-geo-alt-fill"></i> 1A<br>
-        <i class="bi bi-clock-fill"></i> 9:00 to 20:00 Monday to Friday
-        </p>
-      </div>
+          <button id="sendStoreInfo">Book Chat</button>
+          <div id="storeInfo">
+            <p>Store Name: Nike Store</p>
+            <p>Location: New York</p>
+            <p>Phone: 123-456-7890</p>
+            <p>Email: nike@store.com</p>
+        </div>        
 
       <!-- Store 2 -->
       <div><br><br>
@@ -183,5 +182,18 @@
 <footer>
   © 2024 Java App Dev
 </footer>
+
+<script>
+  document.getElementById("sendStoreInfo").addEventListener("click", function () {
+    // Make a request to fetch the storeinfo.ejs content
+    fetch("/StoreInfo.ejs")
+      .then(response => response.text())
+      .then(data => {
+        // Set the content of the storeInfo div with the fetched data
+        document.getElementById("storeInfo").innerHTML = data;
+      })
+      .catch(error => console.error("Error fetching storeinfo.ejs:", error));
+  });
+</script>
 
 </html>
