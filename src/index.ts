@@ -76,6 +76,12 @@ app.get('/search', (req, res) => {
   res.send(`Search results for: ${query}`);
 });
 
+app.get('/StoreInfo', (req, res) => {
+  // Render the StoreInfo.ejs template
+  res.render('StoreInfo');
+});
+
+
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
 });
