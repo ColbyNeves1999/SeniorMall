@@ -53,4 +53,16 @@
     </main>
 </body>
 
+<script>
+    document.getElementById("sendStoreInfo").addEventListener("click", function () {
+      // Make a request to fetch the storeinfo.ejs content
+      fetch("/StoreInfo.ejs")
+        .then(response => response.text())
+        .then(data => {
+          // Set the content of the storeInfo div with the fetched data
+          document.getElementById("storeInfo").innerHTML = data;
+        })
+        .catch(error => console.error("Error fetching storeinfo.ejs:", error));
+    });
+  </script>
 </html>
