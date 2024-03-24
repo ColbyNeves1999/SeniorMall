@@ -32,10 +32,9 @@ async function registerUser(req: Request, res: Response): Promise<void> {
     await addUser(email, passwordHash, birthday);
     await sendEmail(email, 'Welcome!', 'You have successfully created your account!');
     res.redirect('/login');
-
   } catch (err) {
     console.error(err);
-    //Make sure email password in .env is correct if getting errors
+    // Make sure email password in .env is correct if getting errors
     const databaseErrorMessage = parseDatabaseError(err);
     res.status(500).json(databaseErrorMessage);
   }
@@ -125,17 +124,15 @@ async function renderProfilePage(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  //Allows a user to access the admin page if they're an admin
+  // Allows a user to access the admin page if they're an admin
   if (user.admin === true) {
     res.render('adminAccountsPage', { user });
   } else {
     res.render('userAccountsPage', { user });
   }
-
 }
 
 async function userHomePage(req: Request, res: Response): Promise<void> {
-
   let user;
 
   if (req.session.isLoggedIn) {
@@ -146,7 +143,6 @@ async function userHomePage(req: Request, res: Response): Promise<void> {
   }
 
   res.render('userAccountsPage', { user });
-
 }
 
 async function deleteAccount(req: Request, res: Response): Promise<void> {
@@ -218,7 +214,7 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
 }
 
 async function updateUserPassword(req: Request, res: Response): Promise<void> {
-  //const { targetUserId } = req.params as UserIdParam;
+  // const { targetUserId } = req.params as UserIdParam;
 
   // NOTES: Access the data from `req.session`
   const { isLoggedIn, authenticatedUser } = req.session;
@@ -250,7 +246,7 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
   }
 
   res.render('userAccountsPage', { user });
-  //res.sendStatus(200);
+  // res.sendStatus(200);
 }
 
 async function updateUserAdminStatus(req: Request, res: Response): Promise<void> {

@@ -7,6 +7,10 @@ async function getMallById(mallId: string): Promise<Mall | null> {
   return await mallRepository.findOne({ where: { mallId } });
 }
 
+async function getAllMalls(): Promise<Mall[]> {
+  return await mallRepository.find({ relations: ['stores'] });
+}
+
 async function addMall(mallname: string): Promise<Mall> {
   // Create the new mall object and saves data
   let newMall = new Mall();
@@ -32,4 +36,4 @@ async function getMallByLocation(location: string): Promise<Mall | null> {
   return mallRepository.findOne({ where: { location } });
 }
 
-export { addMall, setMallLocation, getMallByLocation, getMallById };
+export { addMall, setMallLocation, getMallByLocation, getMallById, getAllMalls };

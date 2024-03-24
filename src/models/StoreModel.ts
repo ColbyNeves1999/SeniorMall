@@ -68,6 +68,7 @@ async function incrementProfileViews(storeData: Store): Promise<Store> {
 
   return updatedStore;
 }
+
 export {
   addStore,
   getAllStores,

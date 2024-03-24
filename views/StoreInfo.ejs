@@ -1,68 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Store</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Store Analysis</title>
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
-
 <body>
-    <header>
-        <div class="container">
-            <h1>Store</h1>
-            <nav>
+    <section>
+        <h2>Store Analysis</h2>
+    </section>
+    <div id="storeListContainer">
+        <% for (let mall of malls) { %>
+            <div>
+                <h3><%= mall.mallName %></h3>
                 <ul>
-                    <li><a href="/index">Home</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="settings">Settings</a></li>
-                    <li><a href="login.html">Log In</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <main>
-        <section class="store-info">
-            <div class="container">
-                <h2>Store Information</h2>
-                <ul>
-                    <% stores.forEach(store => { %>
-                        <li>
-                            <h3><%= store.storeName %></h3>
-                            <p><strong>Location:</strong> <%= store.location %></p>
-                            <p><strong>Phone:</strong> <%= store.phone %></p>
-                            <p><strong>Email:</strong> <%= store.email %></p>
-                            <p><strong>Profile Views:</strong> <%= store.profileViews %></p>
-                            <h4>Products:</h4>
-                            <ul>
-                                <% store.items.forEach(item => { %>
-                                    <li>
-                                        <h5><%= item.name %></h5>
-                                        <p><strong>Description:</strong> <%= item.description %></p>
-                                        <p><strong>Price:</strong> $<%= item.price.toFixed(2) %></p>
-                                    </li>
-                                <% }); %>
-                            </ul>
-                        </li>
-                    <% }); %>
+                    <% for (let store of mall.stores) { %>
+                        <li><%= store.storeName %></li>
+                    <% } %>
                 </ul>
             </div>
-        </section>
-    </main>
+        <% } %>
+    </div>
 </body>
-
-<script>
-    document.getElementById("sendStoreInfo").addEventListener("click", function () {
-      // Make a request to fetch the storeinfo.ejs content
-      fetch("/StoreInfo.ejs")
-        .then(response => response.text())
-        .then(data => {
-          // Set the content of the storeInfo div with the fetched data
-          document.getElementById("storeInfo").innerHTML = data;
-        })
-        .catch(error => console.error("Error fetching storeinfo.ejs:", error));
-    });
-  </script>
 </html>

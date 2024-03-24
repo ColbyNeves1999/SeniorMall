@@ -19,6 +19,7 @@ import {
 
 import { storeCreator } from './controllers/StoreController';
 import { itemCreator, itemStockModifier } from './controllers/ItemController';
+import { getAllMallsWithStores } from './controllers/MallController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -64,6 +65,16 @@ app.post('/createStore', storeCreator);
 app.post('/createitem', itemCreator);
 app.post('/itemStockModifier', itemStockModifier);
 
+app.get('/storeInfo', async (req, res) => {
+  try {
+    const malls = await getAllMallsWithStores(req, res);
+    res.render('storeInfo', { malls });
+  } catch (error) {
+    console.error('Error fetching malls:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Route to handle GET requests to "/search"
 app.get('/search', (req, res) => {
   // Retrieve the search query from the request
@@ -73,11 +84,6 @@ app.get('/search', (req, res) => {
 
   // Return the search results
   res.send(`Search results for: ${query}`);
-});
-
-app.get('/StoreInfo', (req, res) => {
-  // Render the StoreInfo.ejs template
-  res.render('StoreInfo');
 });
 
 app.listen(PORT, () => {
