@@ -42,6 +42,24 @@ h1 {
   box-shadow: 0 0 0 0 black, 0 0 0 0 black, 0 0 0 0 black;
 }
 
+.settingsbtn {
+  font-family: 'Rubik', serif;
+  border: 2px solid black;
+  width: 200px;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0;
+  position: relative;
+  transition: box-shadow 0.35s, top 0.3s, transform 0.45s;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0.3rem;
+  box-shadow: 0 0 0 0 black, 0 0 0 0 black, 0 0 0 0 black;
+}
+
 .btn-small {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
@@ -52,8 +70,9 @@ h1 {
   padding: 0.75rem 1.5rem;
 }
 
-.btn + .btn {
-  margin-left: 10px; /* Adjust the margin between buttons */
+.btn+.btn {
+  margin-left: 10px;
+  /* Adjust the margin between buttons */
 }
 
 .btn:hover {
@@ -77,9 +96,10 @@ h1 {
 .store-info p {
   margin-bottom: 0;
 }
+
 footer {
   background-color: #88888e;
-  color:#e5e1e1;
+  color: #e5e1e1;
   margin-top: auto;
   padding: 10px;
   text-align: center;
