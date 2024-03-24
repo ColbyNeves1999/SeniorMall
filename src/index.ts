@@ -58,7 +58,6 @@ app.get('/users/userAccountsPage', renderProfilePage);
 app.post('/users/delete', deleteAccount);
 app.post('/users/changePassword', updateUserPassword);
 
-
 app.get('/userHomepage', userHomePage); // Displays the user's homepage
 
 app.post('/createStore', storeCreator);
@@ -80,7 +79,6 @@ app.get('/StoreInfo', (req, res) => {
   // Render the StoreInfo.ejs template
   res.render('StoreInfo');
 });
-
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
