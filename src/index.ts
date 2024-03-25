@@ -15,7 +15,7 @@ import {
   deleteAccount,
   renderProfilePage,
   updateUserPassword,
-  updateUserAdminStatus
+  updateUserAdminStatus,
 } from './controllers/UserController';
 
 import { storeCreator, renderStoreAnalysisPage } from './controllers/StoreController';
