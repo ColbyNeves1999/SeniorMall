@@ -12,12 +12,12 @@ import {
 import { getUserById } from '../models/UserModel';
 
 async function storeCreator(req: Request, res: Response): Promise<void> {
-  const { storeName, location, phone, email } = req.body as NewStoreRequest;
+  const { storeNumber, storeName, location, phone, email } = req.body as NewStoreRequest;
 
   const storeExist = await getStoreByName(storeName);
 
   if (!storeExist) {
-    await addStore(storeName, location, phone, email);
+    await addStore(storeNumber, storeName, location, phone, email);
   }
 
   res.redirect('/users/userAccountsPage');

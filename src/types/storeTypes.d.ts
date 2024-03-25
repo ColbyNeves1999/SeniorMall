@@ -1,6 +1,7 @@
 type NewStoreRequest = {
-    storeName: string;
-    location: string;
-    phone: string;
-    email: string;
-  };
+  storeNumber: number;
+  storeName: string;
+  location: string;
+  phone: string;
+  email: string;
+};

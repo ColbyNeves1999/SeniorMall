@@ -11,6 +11,7 @@ async function getAllStores(): Promise<Store[]> {
 }
 
 async function addStore(
+  storeNumber: number,
   storeName: string,
   location: string,
   phone: string,
@@ -18,6 +19,7 @@ async function addStore(
 ): Promise<Store> {
   // Create the new store object and saves data
   let newStore = new Store();
+  newStore.storeNumber = storeNumber;
   newStore.storeName = storeName;
   newStore.location = location;
   newStore.phone = phone;
