@@ -1,15 +1,19 @@
 import { Request, Response } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
 // import argon2 from 'argon2';
-
 import {
   addStore,
   getStoreByName,
-  getStoreById,
   incrementProfileViews,
   getAllStores,
+  getStoreByNumber,
+  getStoreById,
+  generateStore,
 } from '../models/StoreModel';
 
-import { getUserById } from '../models/UserModel';
+async function getAllStoreProfiles(req: Request, res: Response): Promise<void> {
+  res.json(await getAllStores());
+}
 
 async function storeCreator(req: Request, res: Response): Promise<void> {
   const { storeNumber, storeName, location, phone, email } = req.body as NewStoreRequest;
@@ -24,43 +28,77 @@ async function storeCreator(req: Request, res: Response): Promise<void> {
 }
 
 async function getStoreProfileData(req: Request, res: Response): Promise<void> {
-  const { targetStoreId } = req.params as StoreIdParam;
+  try {
+    const { targetStoreNumber } = req.params as unknown as ParamsDictionary & StoreNumberParam;
 
-  // Get the user account
-  let store = await getStoreById(targetStoreId);
+    // Get the store
+    let store = await getStoreByNumber(targetStoreNumber);
 
-  if (!store) {
-    res.redirect('/index'); // 404 Not Found
-    return;
+    if (!store) {
+      res.redirect('/index'); // 404 Not Found
+      return;
+    }
+
+    // Now update their profile views
+    store = await incrementProfileViews(store);
+
+    const { isLoggedIn, authenticatedStore } = req.session;
+    const viewingStore = await getStoreByNumber(authenticatedStore.storeNumber);
+
+    res.render('storeInfo', {
+      store,
+      authenticatedNumber: viewingStore.storeNumber,
+      loggedIn: isLoggedIn,
+    });
+  } catch (error) {
+    console.error('Error fetching store profile data:', error);
+    res.status(500).send('Internal Server Error');
   }
-
-  // Now update their profile views
-  store = await incrementProfileViews(store);
-
-  const { isLoggedIn, authenticatedUser } = req.session;
-  const viewingUser = await getUserById(authenticatedUser.userId);
-
-  res.render('storeInfo', {
-    store,
-    authenticatedId: viewingUser.userId,
-    loggedIn: isLoggedIn,
-  });
 }
 
-async function getStoreAnalysisData(req: Request, res: Response): Promise<void> {
-  // Check if the user is an admin
-  if (!req.session.isLoggedIn || !req.session.authenticatedUser.adminElevation) {
-    res.status(403).send('Unauthorized'); // 403 Forbidden
-    return;
+async function renderStoreInfoPage(req: Request, res: Response): Promise<void> {
+  try {
+    const { authenticatedStore } = req.session;
+
+    if (!authenticatedStore || !authenticatedStore.storeNumber) {
+      console.error('Authenticated store is not set or does not have storeNumber property');
+      // Handle the error or redirect the user appropriately
+      res.redirect('/login'); // Redirect to login page or handle the error
+      return;
+    }
+
+    const { storeId } = authenticatedStore;
+
+    // Assuming you have a function to retrieve store data by storeId
+    const store = await getStoreById(storeId);
+
+    // Assuming you have a function to retrieve all stores
+    const allStores = await getAllStores();
+
+    res.render('storeInfo', { store, allStores });
+  } catch (error) {
+    console.error('Error rendering store info page:', error);
+    res.status(500).send('Internal Server Error');
   }
-
-  // Get all stores from the database
-  const stores = await getAllStores(); // You need to implement this function
-
-  // Render the store analysis page template with the fetched stores data
-  res.render('storeAnalysisPage', {
-    stores,
-  });
 }
 
-export { storeCreator, getStoreProfileData, getStoreAnalysisData };
+async function getStoreDetails(req: Request, res: Response): Promise<void> {
+  try {
+    const storeNumber = parseInt(req.query.storeNumber as string, 10);
+    const storeData = await generateStore(storeNumber);
+
+    // Render a view with the store data
+    res.render('storePage', { storeData });
+  } catch (error) {
+    console.error('Error fetching store details:', error);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+export {
+  getAllStoreProfiles,
+  storeCreator,
+  getStoreProfileData,
+  renderStoreInfoPage,
+  getStoreDetails,
+};

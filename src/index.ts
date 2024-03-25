@@ -17,9 +17,9 @@ import {
   updateUserPassword,
 } from './controllers/UserController';
 
-import { storeCreator } from './controllers/StoreController';
+import { storeCreator, renderStoreInfoPage } from './controllers/StoreController';
 import { itemCreator, itemStockModifier } from './controllers/ItemController';
-import { getAllMallsWithStores } from './controllers/MallController';
+// import { getAllMallsWithStores } from './controllers/MallController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -49,6 +49,11 @@ app.use(express.static('public', { extensions: ['html'] }));
 app.set('view engine', 'ejs');
 
 // endpoints
+
+app.get('/storePage', (req, res) => {
+  res.render('storePage');
+});
+
 app.get('/api/users', getAllUserProfiles);
 
 app.post('/registerUser', registerUser); // Registers a user
@@ -65,15 +70,7 @@ app.post('/createStore', storeCreator);
 app.post('/createitem', itemCreator);
 app.post('/itemStockModifier', itemStockModifier);
 
-app.get('/storeInfo', async (req, res) => {
-  try {
-    const malls = await getAllMallsWithStores(req, res);
-    res.render('storeInfo', { malls });
-  } catch (error) {
-    console.error('Error fetching malls:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+app.get('/storeInfo', renderStoreInfoPage);
 
 // Route to handle GET requests to "/search"
 app.get('/search', (req, res) => {

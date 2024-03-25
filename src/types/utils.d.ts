@@ -8,6 +8,6 @@ type UserIdParam = {
   targetUserId: string;
 };
 
-type StoreIdParam = {
-  targetStoreId: string;
+type StoreNumberParam = {
+  targetStoreNumber: number;
 };

@@ -11,9 +11,14 @@
     <section>
         <h2>Store Analysis</h2>
     </section>
-    <% for (let i = 1; i <= 6; i++) { %>
-      <h3 class="big-text"><%= eval(`store${i}.profileViews`) %> Views</h3>
-  <% } %>
+    <h3 class="big-text">
+      <% allStores.forEach((storeItem) => { %>
+        <% if (storeItem.storeNumber === storeNumber) { %>
+          <%= storeItem.profileViews %> Views
+        <% } %>
+      <% }); %>
+    </h3>
+
 
 
 </body>

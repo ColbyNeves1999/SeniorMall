@@ -6,6 +6,11 @@ const storeRepository = AppDataSource.getRepository(Store);
 async function getStoreById(storeId: string): Promise<Store | null> {
   return await storeRepository.findOne({ where: { storeId } });
 }
+
+async function getStoreByNumber(storeNumber: number): Promise<Store | null> {
+  return await storeRepository.findOne({ where: { storeNumber } });
+}
+
 async function getAllStores(): Promise<Store[]> {
   return storeRepository.find();
 }
@@ -70,6 +75,15 @@ async function incrementProfileViews(storeData: Store): Promise<Store> {
 
   return updatedStore;
 }
+async function generateStore(storeNumber: number): Promise<Store | null> {
+  try {
+    const store = await storeRepository.findOne({ where: { storeNumber } });
+    return store;
+  } catch (error) {
+    console.error('Error fetching store details:', error);
+    throw error;
+  }
+}
 
 export {
   addStore,
@@ -80,4 +94,6 @@ export {
   getStoreByLocation,
   getStoreByName,
   incrementProfileViews,
+  getStoreByNumber,
+  generateStore,
 };

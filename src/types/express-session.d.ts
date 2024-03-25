@@ -11,6 +11,11 @@ declare module 'express-session' {
       adminElevation: boolean;
     };
 
+    authenticatedStore: {
+      storeNumber: number;
+      storeId: string;
+    };
+
     isLoggedIn: boolean;
     logInAttempts: number;
     logInTimeout: string;

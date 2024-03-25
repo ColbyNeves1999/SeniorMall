@@ -12,7 +12,7 @@ export class Store {
   @Column({ unique: true })
   storeName: string;
 
-  @Column({ unique: true })
+  @Column({ default: null })
   storeNumber: number;
 
   @Column({ unique: true })
