@@ -250,55 +250,25 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
 }
 
 async function updateUserAdminStatus(req: Request, res: Response): Promise<void> {
-  const { targetUserId } = req.params as UserIdParam;
 
-  // NOTES: Access the data from `req.session`
   const { isLoggedIn, authenticatedUser } = req.session;
 
-  // NOTES: We need to make sure that this client is logged in AND
-  //        they are try to modify their own user account
-  if (!isLoggedIn || authenticatedUser.userId !== targetUserId) {
-    res.sendStatus(403); // 403 Forbidden
-    return;
+  if (isLoggedIn && authenticatedUser.adminElevation === true) {
+
+
+
   }
 
   if (authenticatedUser.adminElevation === true) {
     // Email of an admin user, grant/take away admin status, grant/take away elevation status
-    const { email, adminStatus, elevationStatus } = req.body as {
-      email: string;
-      adminStatus: boolean;
-      elevationStatus: boolean;
-    };
+    const { email, adminStatus, elevationStatus } = req.body as newAdmin;
 
-    if (email === GMAIL_USERNAME) {
-      res.sendStatus(403); // 403 Forbidden
-      return;
-    }
-
-    // Get the user account
     const user = await getUserByEmail(email);
+    await updateAdminStatus(user.userId, adminStatus);
+    await updateElevationStatus(user.userId, elevationStatus);
 
-    /// //////////
-    // PUT FUNCTION HERE TO INDICATE USER DOESNT EXIST IF THEY AREN'T FOUND
-    /// //////////
 
-    // Now update their admin/elevation status
-    try {
-      await updateAdminStatus(user.userId, adminStatus);
-
-      if (elevationStatus === true) {
-        await updateElevationStatus(user.userId, elevationStatus);
-      }
-    } catch (err) {
-      // The email was taken so we need to send an error message
-      console.error(err);
-      const databaseErrorMessage = parseDatabaseError(err);
-      res.status(500).json(databaseErrorMessage);
-      return;
-    }
   }
-
-  res.sendStatus(200);
 }
 
 export {

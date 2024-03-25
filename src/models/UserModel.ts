@@ -114,22 +114,30 @@ async function changePassword(userId: string, newPassword: string): Promise<void
   user = await userRepository.save(user);
 }
 
-async function updateAdminStatus(userId: string, adminStatus: boolean): Promise<void> {
-  await userRepository
-    .createQueryBuilder()
-    .update(User)
-    .set({ admin: adminStatus })
-    .where({ userId })
-    .execute();
+async function updateAdminStatus(userId: string, adminStatus: string): Promise<void> {
+  console.log(adminStatus);
+  let user = await getUserById(userId);
+
+  if (adminStatus === "elevate") {
+    user.admin = true;
+  } else if (adminStatus === "deelevate") {
+    user.admin = false;
+  }
+
+  await userRepository.save(user);
 }
 
-async function updateElevationStatus(userId: string, elevationStatus: boolean): Promise<void> {
-  await userRepository
-    .createQueryBuilder()
-    .update(User)
-    .set({ canElevate: elevationStatus })
-    .where({ userId })
-    .execute();
+async function updateElevationStatus(userId: string, elevationStatus: string): Promise<void> {
+  console.log(elevationStatus);
+  let user = await getUserById(userId);
+  if (elevationStatus === "elevate") {
+    user.canElevate = true;
+  } else if (elevationStatus === "deelevate") {
+    user.canElevate = false;
+  }
+
+  await userRepository.save(user);
+
 }
 
 export {

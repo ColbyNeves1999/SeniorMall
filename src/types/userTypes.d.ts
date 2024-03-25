@@ -8,3 +8,9 @@ type AuthRequest = {
   email: string;
   password: string;
 };
+
+type newAdmin = {
+  email: string;
+  adminStatus: string;
+  elevationStatus: string;
+};

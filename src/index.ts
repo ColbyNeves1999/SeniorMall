@@ -15,6 +15,7 @@ import {
   deleteAccount,
   renderProfilePage,
   updateUserPassword,
+  updateUserAdminStatus
 } from './controllers/UserController';
 
 import { storeCreator, renderStoreInfoPage } from './controllers/StoreController';
@@ -69,6 +70,7 @@ app.get('/userHomepage', userHomePage); // Displays the user's homepage
 app.post('/createStore', storeCreator);
 app.post('/createitem', itemCreator);
 app.post('/itemStockModifier', itemStockModifier);
+app.post('/elevate', updateUserAdminStatus);
 
 app.get('/storeInfo', renderStoreInfoPage);
 
