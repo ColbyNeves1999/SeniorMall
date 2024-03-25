@@ -17,7 +17,7 @@ import {
   updateUserPassword,
 } from './controllers/UserController';
 
-import { storeCreator, renderStoreInfoPage } from './controllers/StoreController';
+import { storeCreator, renderStoreAnalysisPage } from './controllers/StoreController';
 import { itemCreator, itemStockModifier } from './controllers/ItemController';
 // import { getAllMallsWithStores } from './controllers/MallController';
 
@@ -70,7 +70,7 @@ app.post('/createStore', storeCreator);
 app.post('/createitem', itemCreator);
 app.post('/itemStockModifier', itemStockModifier);
 
-app.get('/storeInfo', renderStoreInfoPage);
+app.get('/storeInfo', renderStoreAnalysisPage);
 
 // Route to handle GET requests to "/search"
 app.get('/search', (req, res) => {

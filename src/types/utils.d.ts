@@ -7,7 +7,3 @@ type DatabaseConstraintError = {
 type UserIdParam = {
   targetUserId: string;
 };
-
-type StoreNumberParam = {
-  targetStoreNumber: number;
-};

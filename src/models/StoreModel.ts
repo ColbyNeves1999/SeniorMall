@@ -7,16 +7,11 @@ async function getStoreById(storeId: string): Promise<Store | null> {
   return await storeRepository.findOne({ where: { storeId } });
 }
 
-async function getStoreByNumber(storeNumber: number): Promise<Store | null> {
-  return await storeRepository.findOne({ where: { storeNumber } });
-}
-
 async function getAllStores(): Promise<Store[]> {
   return storeRepository.find();
 }
 
 async function addStore(
-  storeNumber: number,
   storeName: string,
   location: string,
   phone: string,
@@ -24,7 +19,6 @@ async function addStore(
 ): Promise<Store> {
   // Create the new store object and saves data
   let newStore = new Store();
-  newStore.storeNumber = storeNumber;
   newStore.storeName = storeName;
   newStore.location = location;
   newStore.phone = phone;
@@ -75,16 +69,6 @@ async function incrementProfileViews(storeData: Store): Promise<Store> {
 
   return updatedStore;
 }
-async function generateStore(storeNumber: number): Promise<Store | null> {
-  try {
-    const store = await storeRepository.findOne({ where: { storeNumber } });
-    return store;
-  } catch (error) {
-    console.error('Error fetching store details:', error);
-    throw error;
-  }
-}
-
 export {
   addStore,
   getAllStores,
@@ -94,6 +78,4 @@ export {
   getStoreByLocation,
   getStoreByName,
   incrementProfileViews,
-  getStoreByNumber,
-  generateStore,
 };
