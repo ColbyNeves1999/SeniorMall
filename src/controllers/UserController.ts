@@ -15,7 +15,7 @@ import {
 import { parseDatabaseError } from '../utils/db-utils';
 import { sendEmail } from '../services/emailService';
 
-const { GMAIL_USERNAME } = process.env;
+// const { GMAIL_USERNAME } = process.env;
 
 async function getAllUserProfiles(req: Request, res: Response): Promise<void> {
   res.json(await allUserData());
@@ -250,13 +250,9 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
 }
 
 async function updateUserAdminStatus(req: Request, res: Response): Promise<void> {
-
   const { isLoggedIn, authenticatedUser } = req.session;
 
   if (isLoggedIn && authenticatedUser.adminElevation === true) {
-
-
-
   }
 
   if (authenticatedUser.adminElevation === true) {
@@ -266,8 +262,6 @@ async function updateUserAdminStatus(req: Request, res: Response): Promise<void>
     const user = await getUserByEmail(email);
     await updateAdminStatus(user.userId, adminStatus);
     await updateElevationStatus(user.userId, elevationStatus);
-
-
   }
 }
 
