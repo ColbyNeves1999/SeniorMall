@@ -15,7 +15,7 @@ import {
   deleteAccount,
   renderProfilePage,
   updateUserPassword,
-  updateUserAdminStatus,
+  // updateUserAdminStatus,
 } from './controllers/UserController';
 
 import { storeCreator, renderStoreAnalysisPage } from './controllers/StoreController';
@@ -50,7 +50,6 @@ app.use(express.static('public', { extensions: ['html'] }));
 app.set('view engine', 'ejs');
 
 // endpoints
-
 app.get('/storePage', (req, res) => {
   res.render('storePage');
 });
@@ -70,7 +69,7 @@ app.get('/userHomepage', userHomePage); // Displays the user's homepage
 app.post('/createStore', storeCreator);
 app.post('/createitem', itemCreator);
 app.post('/itemStockModifier', itemStockModifier);
-app.post('/elevate', updateUserAdminStatus);
+// app.post('/elevate', updateUserAdminStatus);
 
 app.get('/storeInfo', renderStoreAnalysisPage);
 

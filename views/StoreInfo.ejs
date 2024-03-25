@@ -6,16 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Store Analysis</title>
     <link rel="stylesheet" href="/css/style.css" />
+    <style>
+        .store-profile-views {
+            font-size: 100px;
+        }
+    </style>
 </head>
 <body>
     <section>
-        <h2>Store Analysis</h2>
+        <h1>Store Analysis</h1>
     </section>
-    <h3 class="big-text">
-
-
-    </h3>
-
+    <div class="store-container">
+      <div class="store-info">
+        <% stores.forEach(store => { %>
+        <div class="store">
+            <h2><%= store.storeName %></h2>
+            <img src="/imgs/<%= store.storeName %>.png" width="400" height="300">
+            <p>
+              <span class="store-profile-views"> Store Profile views: <%= store.profileViews %></span>
+            </p>
+        </div>
+        <% }); %>
+      </div>
+    </div>
 
 </body>
 </html>

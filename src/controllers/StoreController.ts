@@ -39,8 +39,12 @@ async function getStoreProfileData(req: Request, res: Response): Promise<void> {
 }
 
 async function renderStoreAnalysisPage(req: Request, res: Response): Promise<void> {
-  const { targetStoreId } = req.params as StoreIdParam;
-  const store = await getStoreById(targetStoreId);
-  res.render('storeInfo', { store });
+  try {
+    const stores = await getAllStores(); // Retrieve all stores from the database
+    res.render('storeInfo', { stores });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal server error');
+  }
 }
 export { getAllStoreProfiles, storeCreator, getStoreProfileData, renderStoreAnalysisPage };

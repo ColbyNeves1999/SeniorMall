@@ -6,12 +6,12 @@ import {
   ManyToMany,
   Relation,
   JoinTable,
-  OneToMany,
+  // OneToMany,
 } from 'typeorm';
 
 import { Mall } from './Mall';
 import { Store } from './Store';
-import { cartItem } from './Cart';
+// import { cartItem } from './Cart';
 
 @Entity()
 export class User {
@@ -38,8 +38,8 @@ export class User {
   canElevate: boolean;
 
   // Define One-to-Many relationship with cartItem
-  @OneToMany(() => cartItem, cartItem => cartItem.user)
-  cartItems: cartItem[]; // Define the property to hold related cartItems
+  // @OneToMany(() => cartItem, cartItem => cartItem.user)
+  // cartItems: cartItem[]; // Define the property to hold related cartItems
 
   @ManyToOne(() => Mall, (mall) => mall.users)
   mall: Relation<Mall>;

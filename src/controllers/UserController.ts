@@ -8,8 +8,8 @@ import {
   allUserData,
   deleteUserById,
   updateEmailAddress,
-  updateAdminStatus,
-  updateElevationStatus,
+  // updateAdminStatus,
+  // updateElevationStatus,
   changePassword,
 } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
@@ -249,21 +249,21 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
   // res.sendStatus(200);
 }
 
-async function updateUserAdminStatus(req: Request, res: Response): Promise<void> {
-  const { isLoggedIn, authenticatedUser } = req.session;
+// async function updateUserAdminStatus(req: Request, res: Response): Promise<void> {
+//   const { isLoggedIn, authenticatedUser } = req.session;
 
-  if (isLoggedIn && authenticatedUser.adminElevation === true) {
-  }
+//   if (isLoggedIn && authenticatedUser.adminElevation === true) {
+//   }
 
-  if (authenticatedUser.adminElevation === true) {
-    // Email of an admin user, grant/take away admin status, grant/take away elevation status
-    const { email, adminStatus, elevationStatus } = req.body as newAdmin;
+//   if (authenticatedUser.adminElevation === true) {
+//     // Email of an admin user, grant/take away admin status, grant/take away elevation status
+//     const { email, adminStatus, elevationStatus } = req.body as newAdmin;
 
-    const user = await getUserByEmail(email);
-    await updateAdminStatus(user.userId, adminStatus);
-    await updateElevationStatus(user.userId, elevationStatus);
-  }
-}
+//     const user = await getUserByEmail(email);
+//     await updateAdminStatus(user.userId, adminStatus);
+//     await updateElevationStatus(user.userId, elevationStatus);
+//   }
+// }
 
 export {
   getAllUserProfiles,
@@ -274,5 +274,5 @@ export {
   renderProfilePage,
   updateUserEmail,
   updateUserPassword,
-  updateUserAdminStatus,
+  // updateUserAdminStatus,
 };

@@ -2,6 +2,7 @@ import { AppDataSource } from '../dataSource';
 import { Store } from '../entities/Store';
 
 const storeRepository = AppDataSource.getRepository(Store);
+const newlyAddedStores: Store[] = []; // Array to store newly added stores
 
 async function getStoreById(storeId: string): Promise<Store | null> {
   return await storeRepository.findOne({ where: { storeId } });
@@ -28,6 +29,8 @@ async function addStore(
   // NOTES: We reassign to `newStore` so we can access
   // NOTES: the fields the database autogenerates (the id & default columns)
   newStore = await storeRepository.save(newStore);
+  // Add the newly added store to the array
+  newlyAddedStores.push(newStore);
   return newStore;
 }
 
@@ -78,4 +81,5 @@ export {
   getStoreByLocation,
   getStoreByName,
   incrementProfileViews,
+  newlyAddedStores,
 };
