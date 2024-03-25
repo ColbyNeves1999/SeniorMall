@@ -13,6 +13,9 @@ export class Store {
   storeName: string;
 
   @Column({ unique: true })
+  storeNumber: number;
+
+  @Column({ unique: true })
   location: string;
 
   @Column({ unique: true })
