@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { User } from './User';
 
 @Entity()
 export class cartItem {
@@ -22,4 +23,7 @@ export class cartItem {
   @Column({ default: false })
   isInCart: boolean;
 
+  // Define Many-to-One relationship with User
+  @ManyToOne(() => User, user => user.cartItems)
+  user: User;
 }

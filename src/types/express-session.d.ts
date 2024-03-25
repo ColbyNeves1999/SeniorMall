@@ -12,7 +12,7 @@ declare module 'express-session' {
     };
 
     authenticatedStore: {
-      storeNumber: number;
+      email: string;
       storeId: string;
     };
 
