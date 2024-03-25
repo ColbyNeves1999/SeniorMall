@@ -24,36 +24,27 @@ async function storeCreator(req: Request, res: Response): Promise<void> {
 }
 
 async function getStoreProfileData(req: Request, res: Response): Promise<void> {
-  // only the admin can view this
-  if (req.session.isLoggedIn === true) {
-    const { authenticatedUser } = req.session;
+  const { targetStoreId } = req.params as StoreIdParam;
 
-    // Get the user account
-    const user = await getUserById(authenticatedUser.userId);
+  // Get the user account
+  let store = await getStoreById(targetStoreId);
 
-    if (user && user.admin === true) {
-      const { targetStoreId } = req.params as StoreIdParam;
-
-      // Get the store account
-      let store = await getStoreById(targetStoreId);
-
-      if (!store) {
-        res.redirect('/index'); // 404 Not Found
-        return;
-      }
-
-      // Now update store profile views
-      store = await incrementProfileViews(store);
-
-      res.render('storeAnalysisPage', {
-        store,
-      });
-    } else {
-      res.status(403).send('Unauthorized'); // 403 Forbidden
-    }
-  } else {
-    res.status(401).send('Unauthorized'); // 401 Unauthorized
+  if (!store) {
+    res.redirect('/index'); // 404 Not Found
+    return;
   }
+
+  // Now update their profile views
+  store = await incrementProfileViews(store);
+
+  const { isLoggedIn, authenticatedUser } = req.session;
+  const viewingUser = await getUserById(authenticatedUser.userId);
+
+  res.render('storeInfo', {
+    store,
+    authenticatedId: viewingUser.userId,
+    loggedIn: isLoggedIn,
+  });
 }
 
 async function getStoreAnalysisData(req: Request, res: Response): Promise<void> {

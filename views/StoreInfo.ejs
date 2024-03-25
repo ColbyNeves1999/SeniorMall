@@ -11,17 +11,10 @@
     <section>
         <h2>Store Analysis</h2>
     </section>
-    <div id="storeListContainer">
-        <% for (let mall of malls) { %>
-            <div>
-                <h3><%= mall.mallName %></h3>
-                <ul>
-                    <% for (let store of mall.stores) { %>
-                        <li><%= store.storeName %></li>
-                    <% } %>
-                </ul>
-            </div>
-        <% } %>
-    </div>
+    <% for (let i = 1; i <= 6; i++) { %>
+      <h3 class="big-text"><%= eval(`store${i}.profileViews`) %> Views</h3>
+  <% } %>
+
+
 </body>
 </html>
