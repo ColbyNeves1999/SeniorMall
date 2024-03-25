@@ -1,13 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-// import { User } from './User';
 
 @Entity()
-export class Item {
+export class cartItem {
   @PrimaryGeneratedColumn('uuid')
-  itemId: string;
+  cartItemId: string;
 
   @Column()
-  itemName: string;
+  cartItemName: string;
 
   @Column()
   quantity: number;
@@ -23,8 +22,4 @@ export class Item {
   @Column({ default: false })
   isInCart: boolean;
 
-  /*
-  @ManyToOne(() => User, user => user.cartItems)
-  user: User;
-  */
 }
