@@ -18,7 +18,11 @@ import {
   // updateUserAdminStatus,
 } from './controllers/UserController';
 
-import { storeCreator, renderStoreAnalysisPage } from './controllers/StoreController';
+import {
+  storeCreator,
+  renderStoreAnalysisPage,
+  newlyAddedStores,
+} from './controllers/StoreController';
 import { itemCreator, itemStockModifier } from './controllers/ItemController';
 // import { getAllMallsWithStores } from './controllers/MallController';
 
@@ -50,8 +54,16 @@ app.use(express.static('public', { extensions: ['html'] }));
 app.set('view engine', 'ejs');
 
 // endpoints
-app.get('/storePage', (req, res) => {
-  res.render('storePage');
+app.get('/store1Page', (req, res) => {
+  const store = newlyAddedStores[0];
+
+  if (!store) {
+    res.status(404).send('Store not found');
+    return;
+  }
+
+  // Render the store1Page.ejs template and pass the store object to it
+  res.render('store1Page', { store });
 });
 
 app.get('/api/users', getAllUserProfiles);

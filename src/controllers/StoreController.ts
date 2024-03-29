@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-// import argon2 from 'argon2';
 import {
   addStore,
   getStoreByName,
   incrementProfileViews,
   getAllStores,
   getStoreById,
+  newlyAddedStores, // Import array
 } from '../models/StoreModel';
 
 async function getAllStoreProfiles(req: Request, res: Response): Promise<void> {
@@ -47,4 +47,11 @@ async function renderStoreAnalysisPage(req: Request, res: Response): Promise<voi
     res.status(500).send('Internal server error');
   }
 }
-export { getAllStoreProfiles, storeCreator, getStoreProfileData, renderStoreAnalysisPage };
+
+export {
+  getAllStoreProfiles,
+  storeCreator,
+  getStoreProfileData,
+  renderStoreAnalysisPage,
+  newlyAddedStores,
+};
