@@ -55,7 +55,7 @@ app.set('view engine', 'ejs');
 
 // endpoints
 app.get('/store1Page', (req, res) => {
-  const store = newlyAddedStores[0];
+  const store = newlyAddedStores[1];
 
   if (!store) {
     res.status(404).send('Store not found');
