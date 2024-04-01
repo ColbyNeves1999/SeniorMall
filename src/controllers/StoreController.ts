@@ -39,9 +39,12 @@ async function getStoreProfileData(req: Request, res: Response): Promise<void> {
 }
 
 async function renderStorePage(req: Request, res: Response): Promise<void> {
-  const { storeName } = req.params;
+  const { storeName } = req.params as NewStoreRequest;
+
+  console.log(storeName);
 
   const store = await getStoreByName(storeName);
+  await incrementProfileViews(store);
   const itemList = await getItemByStoreId(store.storeId);
 
   res.render(`storePage`, { store, itemList });
