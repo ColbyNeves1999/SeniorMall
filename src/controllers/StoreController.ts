@@ -5,7 +5,6 @@ import {
   incrementProfileViews,
   getAllStores,
   getStoreById,
-  newlyAddedStores, // Import array
 } from '../models/StoreModel';
 
 async function getAllStoreProfiles(req: Request, res: Response): Promise<void> {
@@ -39,13 +38,10 @@ async function getStoreProfileData(req: Request, res: Response): Promise<void> {
 }
 
 async function renderStorePage(req: Request, res: Response): Promise<void> {
-  try {
-    const stores = await getAllStores(); // Retrieve all stores from the database
-    res.render('store1Page', { stores });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal server error');
-  }
+  const { storeId } = req.params;
+
+  const store = await getStoreById(storeId);
+  res.render('store1Page', { store });
 }
 
 async function renderStoreAnalysisPage(req: Request, res: Response): Promise<void> {
@@ -64,5 +60,4 @@ export {
   getStoreProfileData,
   renderStorePage,
   renderStoreAnalysisPage,
-  newlyAddedStores,
 };
