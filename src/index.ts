@@ -28,6 +28,7 @@ import { itemCreator, itemStockModifier } from './controllers/ItemController';
 // import { getAllMallsWithStores } from './controllers/MallController';
 
 const app: Express = express();
+
 const { PORT, COOKIE_SECRET } = process.env;
 
 const SQLiteStore = connectSqlite3(session);
@@ -53,9 +54,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public', { extensions: ['html'] }));
 app.set('view engine', 'ejs');
-
 // endpoints
-app.get('/store1Page', renderStorePage);
+app.get('/store:storeIndexPage', renderStorePage);
 
 app.get('/api/users', getAllUserProfiles);
 
