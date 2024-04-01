@@ -1,12 +1,19 @@
 import { AppDataSource } from '../dataSource';
 import { Item } from '../entities/Item';
 
-import { getStoreByName } from './StoreModel';
+import { getStoreByName, getStoreById } from './StoreModel';
 
 const itemRepository = AppDataSource.getRepository(Item);
 
 async function getItemById(itemId: string): Promise<Item | null> {
   return await itemRepository.findOne({ where: { itemId } });
+}
+
+async function getItemByStoreId(storeId: string): Promise<Item[] | null> {
+
+  const store = await getStoreById(storeId);
+
+  return await itemRepository.find({ where: { store } });
 }
 
 async function getItemByName(itemName: string): Promise<Item | null> {
@@ -54,4 +61,4 @@ async function getUserByName(itemName: string): Promise<Item | null> {
   return itemRepository.findOne({ where: { itemName } });
 }
 
-export { getItemById, getItemByName, addItem, setItemStock, getUserByName, updateItemStock };
+export { getItemById, getItemByName, addItem, setItemStock, getUserByName, updateItemStock, getItemByStoreId };

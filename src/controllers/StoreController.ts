@@ -6,6 +6,7 @@ import {
   getAllStores,
   getStoreById,
 } from '../models/StoreModel';
+import { getItemByStoreId } from '../models/ItemModel';
 
 async function getAllStoreProfiles(req: Request, res: Response): Promise<void> {
   res.json(await getAllStores());
@@ -41,8 +42,9 @@ async function renderStorePage(req: Request, res: Response): Promise<void> {
   const { storeName } = req.params;
 
   const store = await getStoreByName(storeName);
+  const itemList = await getItemByStoreId(store.storeId);
 
-  res.render(`storePage`, { store });
+  res.render(`storePage`, { store, itemList });
 }
 
 async function renderStoreAnalysisPage(req: Request, res: Response): Promise<void> {
