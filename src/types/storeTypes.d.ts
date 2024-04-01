@@ -4,7 +4,3 @@ type NewStoreRequest = {
   phone: string;
   email: string;
 };
-
-type StoreIdParam = {
-  targetStoreId: string;
-};

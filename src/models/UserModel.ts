@@ -116,11 +116,11 @@ async function changePassword(userId: string, newPassword: string): Promise<void
 
 async function updateAdminStatus(userId: string, adminStatus: string): Promise<void> {
   console.log(adminStatus);
-  let user = await getUserById(userId);
+  const user = await getUserById(userId);
 
-  if (adminStatus === "elevate") {
+  if (adminStatus === 'elevate') {
     user.admin = true;
-  } else if (adminStatus === "deelevate") {
+  } else if (adminStatus === 'deelevate') {
     user.admin = false;
   }
 
@@ -129,15 +129,14 @@ async function updateAdminStatus(userId: string, adminStatus: string): Promise<v
 
 async function updateElevationStatus(userId: string, elevationStatus: string): Promise<void> {
   console.log(elevationStatus);
-  let user = await getUserById(userId);
-  if (elevationStatus === "elevate") {
+  const user = await getUserById(userId);
+  if (elevationStatus === 'elevate') {
     user.canElevate = true;
-  } else if (elevationStatus === "deelevate") {
+  } else if (elevationStatus === 'deelevate') {
     user.canElevate = false;
   }
 
   await userRepository.save(user);
-
 }
 
 export {

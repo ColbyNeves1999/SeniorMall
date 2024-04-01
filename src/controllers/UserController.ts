@@ -261,9 +261,7 @@ async function updateUserAdminPermissions(req: Request, res: Response): Promise<
       await updateAdminStatus(user.userId, adminStatus);
       await updateElevationStatus(user.userId, elevationStatus);
     }
-
   }
-
 }
 
 export {

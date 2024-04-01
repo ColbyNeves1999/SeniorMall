@@ -7,3 +7,7 @@ type DatabaseConstraintError = {
 type UserIdParam = {
   targetUserId: string;
 };
+
+type StoreIdParam = {
+  targetStoreId: string;
+};

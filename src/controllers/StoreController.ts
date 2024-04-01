@@ -38,6 +38,16 @@ async function getStoreProfileData(req: Request, res: Response): Promise<void> {
   res.render('storeInfo', { store });
 }
 
+async function renderStorePage(req: Request, res: Response): Promise<void> {
+  try {
+    const stores = await getAllStores(); // Retrieve all stores from the database
+    res.render('store1Page', { stores });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal server error');
+  }
+}
+
 async function renderStoreAnalysisPage(req: Request, res: Response): Promise<void> {
   try {
     const stores = await getAllStores(); // Retrieve all stores from the database
@@ -52,6 +62,7 @@ export {
   getAllStoreProfiles,
   storeCreator,
   getStoreProfileData,
+  renderStorePage,
   renderStoreAnalysisPage,
   newlyAddedStores,
 };

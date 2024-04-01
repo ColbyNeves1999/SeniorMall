@@ -1,33 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="/css/style.css" />
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to <%= store.storeName %></title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to <%= stores[0].storeName %> page</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <style>
+        .item {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
+<header>
+  <h1>Welcome to <%= stores[0].storeName %> page!
+              <a href="/index" class="btn">
+                  Home
+              </a>
+          </div>
+
+  </h1>
+</header>
 <body>
-  <header>
-    <h1>Welcome to <%= store.storeName %></h1>
-    <nav>
-      <ul>
-        <li><a href="/index">Home</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+  <div class="store-container">
+    <div class="store-info">
+        <div class="store">
+          <img src="/imgs/<%= stores[0].storeName %>.png" width="400" height="300">
+        </div>
+    </div>
+  </div>
+
   <main>
     <section>
-      <h2>Featured Products</h2>
-      <% store.products.forEach(product => { %>
-        <div class="product">
-          <img src="<%= product.image %>" alt="<%= product.name %>">
-          <h3><%= product.name %></h3>
-          <p><%= product.description %></p>
-          <button>Add to Cart</button>
-        </div>
-      <% }); %>
+      <h2>Featured Items</h2>
+      <% if (stores[0].items && Array.isArray(stores[0].items) && stores[0].items.length > 0) { %>
+        <% stores[0].items.forEach(item => { %>
+          <div class="item">
+            <img src="<%= item.image %>" alt="<%= item.name %>">
+            <h3><%= item.name %></h3>
+            <p><%= item.description %></p>
+            <button>Add to Cart</button>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p>No Items found.</p>
+      <% } %>
     </section>
   </main>
 </body>

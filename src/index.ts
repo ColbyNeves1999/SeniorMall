@@ -21,7 +21,8 @@ import {
 import {
   storeCreator,
   renderStoreAnalysisPage,
-  newlyAddedStores,
+  // newlyAddedStores,
+  renderStorePage,
 } from './controllers/StoreController';
 import { itemCreator, itemStockModifier } from './controllers/ItemController';
 // import { getAllMallsWithStores } from './controllers/MallController';
@@ -54,17 +55,7 @@ app.use(express.static('public', { extensions: ['html'] }));
 app.set('view engine', 'ejs');
 
 // endpoints
-app.get('/store1Page', (req, res) => {
-  const store = newlyAddedStores[1];
-
-  if (!store) {
-    res.status(404).send('Store not found');
-    return;
-  }
-
-  // Render the store1Page.ejs template and pass the store object to it
-  res.render('store1Page', { store });
-});
+app.get('/store1Page', renderStorePage);
 
 app.get('/api/users', getAllUserProfiles);
 
