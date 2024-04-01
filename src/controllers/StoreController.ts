@@ -38,20 +38,11 @@ async function getStoreProfileData(req: Request, res: Response): Promise<void> {
 }
 
 async function renderStorePage(req: Request, res: Response): Promise<void> {
-  const { storeIndex } = req.params;
+  const { storeName } = req.params;
 
-  const stores = await getAllStores();
+  const store = await getStoreByName(storeName);
 
-  // Ensure the store index is within the array bounds
-  const index = parseInt(storeIndex, 10);
-  if (Number.isNaN(index) || index < 1 || index > stores.length) {
-    res.status(404).send('Store not found');
-    return;
-  }
-
-  const store = stores[index - 1];
-
-  res.render(`store${index}Page`, { store });
+  res.render(`storePage`, { store });
 }
 
 async function renderStoreAnalysisPage(req: Request, res: Response): Promise<void> {

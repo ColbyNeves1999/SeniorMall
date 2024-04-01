@@ -55,7 +55,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public', { extensions: ['html'] }));
 app.set('view engine', 'ejs');
 // endpoints
-app.get('/store:storeIndexPage', renderStorePage);
+app.get('/storePage', renderStorePage);
 
 app.get('/api/users', getAllUserProfiles);
 
