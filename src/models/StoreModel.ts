@@ -7,10 +7,8 @@ async function getStoreById(storeId: string): Promise<Store | null> {
   return await storeRepository.findOne({ where: { storeId } });
 }
 
-async function getAllStores(): Promise<{ index: number; store: Store }[]> {
-  const stores = await storeRepository.find();
-  // Map each store to an object containing store information and its index
-  return stores.map((store, index) => ({ index, store }));
+async function getAllStores(): Promise<Store[]> {
+  return storeRepository.find();
 }
 
 async function addStore(
