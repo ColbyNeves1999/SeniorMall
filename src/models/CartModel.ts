@@ -1,37 +1,37 @@
 import { AppDataSource } from '../dataSource';
-import { cartItem } from '../entities/Cart'; 
+import { cartItem } from '../entities/Cart';
 
-export class CartModel {
-  private cartItemRepository = AppDataSource.getRepository(cartItem);
+const cartItemRepository = AppDataSource.getRepository(cartItem);
 
-  async getItemById(cartItemId: string): Promise<cartItem | null> {
-    return await this.cartItemRepository.findOne({ where: { cartItemId } });
-  }
-
-  async getItemByName(cartItemName: string): Promise<cartItem | null> {
-    return await this.cartItemRepository.findOne({ where: { cartItemName } });
-  }
-
-  async addItem(cartItemName: string, quantity: number, description: string, price: number): Promise<cartItem> {
-    const newItem = this.cartItemRepository.create({
-      cartItemName,
-      quantity,
-      description,
-      price,
-      isInCart: true // Setting isInCart to true for items added to the cart
-    });
-    return await this.cartItemRepository.save(newItem);
-  }
-
-  async updateItem(cartItem: cartItem): Promise<cartItem> {
-    return await this.cartItemRepository.save(cartItem);
-  }
-
-  async removeItem(cartItemId: string): Promise<void> {
-    await this.cartItemRepository.delete(cartItemId);
-  }
-
-  async getItemsInCart(): Promise<cartItem[]> {
-    return await this.cartItemRepository.find({ where: { isInCart: true } });
-  }
+async function getItemById(cartItemId: string): Promise<cartItem | null> {
+  return await cartItemRepository.findOne({ where: { cartItemId } });
 }
+
+async function getItemByName(cartItemName: string): Promise<cartItem | null> {
+  return await cartItemRepository.findOne({ where: { cartItemName } });
+}
+
+async function addItem(cartItemName: string, quantity: number, description: string, price: number): Promise<cartItem> {
+  const newItem = cartItemRepository.create({
+    cartItemName,
+    quantity,
+    description,
+    price,
+    isInCart: true
+  });
+  return await cartItemRepository.save(newItem);
+}
+
+async function updateItem(cartItem: cartItem): Promise<cartItem> {
+  return await cartItemRepository.save(cartItem);
+}
+
+async function removeItem(cartItemId: string): Promise<void> {
+  await cartItemRepository.delete(cartItemId);
+}
+
+async function getItemsInCart(): Promise<cartItem[]> {
+  return await cartItemRepository.find({ where: { isInCart: true } });
+}
+
+export { getItemById, getItemByName, addItem, updateItem, removeItem, getItemsInCart };
