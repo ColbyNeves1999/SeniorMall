@@ -44,10 +44,15 @@ async function renderStorePage(req: Request, res: Response): Promise<void> {
   console.log(storeName);
 
   const store = await getStoreByName(storeName);
-  await incrementProfileViews(store);
-  const itemList = await getItemByStoreId(store.storeId);
+  if(store){
+    await incrementProfileViews(store);
 
-  res.render(`storePage`, { store, itemList });
+    const itemList = await getItemByStoreId(store.storeId);
+  
+    res.render(`storePage`, { store, itemList });
+  }else{
+    res.redirect("index.html");
+  }
 }
 
 async function renderStoreAnalysisPage(req: Request, res: Response): Promise<void> {
