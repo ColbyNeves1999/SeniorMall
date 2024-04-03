@@ -39,7 +39,7 @@ async function getStoreProfileData(req: Request, res: Response): Promise<void> {
 }
 
 async function renderStorePage(req: Request, res: Response): Promise<void> {
-  const { storeName } = req.params as NewStoreRequest;
+  const { storeName } = req.body as NewStoreRequest;
 
   console.log(storeName);
 
