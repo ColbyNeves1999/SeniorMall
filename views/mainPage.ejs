@@ -34,13 +34,15 @@
 
 
     <div class="button-container">
-      <a href="/login" class="btn">
-        <%if(isLoggedIn){%>
+      <%if(isLoggedIn){%>
+        <a href="/logOut" class="btn">
           Log Out
-        <%}else{%>
+        </a>
+      <%}else{%>
+        <a href="/login" class="btn">
           Log In
-        <%}%>
-      </a>
+        </a>
+      <%}%>
 
       <a href="/users/userAccountsPage" class="btn">
         Accounts Page

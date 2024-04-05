@@ -108,6 +108,18 @@ async function logIn(req: Request, res: Response): Promise<void> {
   res.redirect('/users/userAccountsPage');
 }
 
+async function logOut(req: Request, res: Response): Promise<void> {
+
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+    }
+    // Redirect to login page after logout
+    res.redirect('/');
+  });
+
+}
+
 async function renderProfilePage(req: Request, res: Response): Promise<void> {
   const { authenticatedUser } = req.session;
 
@@ -268,6 +280,7 @@ export {
   getAllUserProfiles,
   registerUser,
   logIn,
+  logOut,
   userHomePage,
   deleteAccount,
   renderProfilePage,

@@ -12,6 +12,7 @@ import {
   getAllUserProfiles,
   registerUser,
   logIn,
+  logOut,
   userHomePage,
   deleteAccount,
   renderProfilePage,
@@ -63,6 +64,7 @@ app.get('/api/users', getAllUserProfiles);
 
 app.post('/registerUser', registerUser); // Registers a user
 app.post('/login', logIn); // Lets a user login
+app.get('/logout', logOut); // Lets a user logout
 
 app.get('/users/userAccountsPage', renderProfilePage);
 
