@@ -22,11 +22,10 @@ import {
 import {
   storeCreator,
   renderStoreAnalysisPage,
-  // newlyAddedStores,
   renderStorePage,
 } from './controllers/StoreController';
 import { itemCreator, itemStockModifier } from './controllers/ItemController';
-// import { getAllMallsWithStores } from './controllers/MallController';
+import { renderMainPage } from './controllers/PageController';
 
 const app: Express = express();
 
@@ -56,7 +55,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public', { extensions: ['html'] }));
 app.set('view engine', 'ejs');
 // endpoints
+
 app.post('/storePage', renderStorePage);
+app.get('/', renderMainPage);
 
 app.get('/api/users', getAllUserProfiles);
 

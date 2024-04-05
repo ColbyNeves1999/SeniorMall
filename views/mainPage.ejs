@@ -35,7 +35,11 @@
 
     <div class="button-container">
       <a href="/login" class="btn">
-        Log In
+        <%if(isLoggedIn){%>
+          Log Out
+        <%}else{%>
+          Log In
+        <%}%>
       </a>
 
       <a href="/users/userAccountsPage" class="btn">

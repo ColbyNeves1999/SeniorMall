@@ -173,7 +173,7 @@ async function deleteAccount(req: Request, res: Response): Promise<void> {
   }
 
   await deleteUserById(user.userId);
-  res.redirect('/index');
+  res.redirect('/');
 }
 
 async function updateUserEmail(req: Request, res: Response): Promise<void> {

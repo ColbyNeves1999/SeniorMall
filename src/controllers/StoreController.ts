@@ -51,7 +51,7 @@ async function renderStorePage(req: Request, res: Response): Promise<void> {
   
     res.render(`storePage`, { store, itemList });
   }else{
-    res.redirect("index.html");
+    res.redirect("/");
   }
 }
 
