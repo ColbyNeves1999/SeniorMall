@@ -109,7 +109,6 @@ async function logIn(req: Request, res: Response): Promise<void> {
 }
 
 async function logOut(req: Request, res: Response): Promise<void> {
-
   req.session.destroy((err) => {
     if (err) {
       console.error('Error destroying session:', err);
@@ -117,7 +116,6 @@ async function logOut(req: Request, res: Response): Promise<void> {
     // Redirect to login page after logout
     res.redirect('/');
   });
-
 }
 
 async function renderProfilePage(req: Request, res: Response): Promise<void> {
@@ -261,7 +259,7 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
   // res.sendStatus(200);
 }
 
-async function updateUserAdminPermissions(req: Request, res: Response): Promise<void> {
+async function updateUserAdminPermissions(req: Request): Promise<void> {
   const { isLoggedIn, authenticatedUser } = req.session;
 
   if (isLoggedIn && authenticatedUser.adminElevation === true) {

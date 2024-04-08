@@ -6,7 +6,7 @@ import connectSqlite3 from 'connect-sqlite3';
 import { scheduleJob } from 'node-schedule';
 
 import { lookForAdmin } from './models/UserModel';
-import { renderCart } from './controllers/CartController'
+import { renderCart } from './controllers/CartController';
 
 import {
   getAllUserProfiles,
@@ -24,6 +24,7 @@ import {
   storeCreator,
   renderStoreAnalysisPage,
   renderStorePage,
+  generateStoreChart,
 } from './controllers/StoreController';
 import { itemCreator, itemStockModifier } from './controllers/ItemController';
 import { renderMainPage } from './controllers/PageController';
@@ -79,6 +80,8 @@ app.post('/itemStockModifier', itemStockModifier);
 app.post('/elevate', updateUserAdminPermissions);
 
 app.get('/storeInfo', renderStoreAnalysisPage);
+app.get('/store/chart', generateStoreChart);
+
 app.get('/cart', renderCart);
 
 // Route to handle GET requests to "/search"

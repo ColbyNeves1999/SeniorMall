@@ -65,10 +65,35 @@ async function renderStoreAnalysisPage(req: Request, res: Response): Promise<voi
   }
 }
 
+interface ChartData {
+  labels: string[];
+  profileViews: number[];
+}
+
+async function generateStoreChart(req: Request, res: Response): Promise<void> {
+  try {
+    // Retrieve all stores from the database
+    const stores = await getAllStores();
+
+    // Extract store names and profile views for the chart data
+    const chartData: ChartData = {
+      labels: stores.map((store) => store.storeName),
+      profileViews: stores.map((store) => store.profileViews),
+    };
+
+    // Render the chart
+    res.render('storeChart', { chartData });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal server error');
+  }
+}
+
 export {
   getAllStoreProfiles,
   storeCreator,
   getStoreProfileData,
   renderStorePage,
   renderStoreAnalysisPage,
+  generateStoreChart,
 };

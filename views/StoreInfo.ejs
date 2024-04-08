@@ -35,6 +35,17 @@
         <% }); %>
       </div>
     </div>
+    <div id="storeChart"></div>
 
+    <!-- Script to fetch chart data and render the chart -->
+    <script>
+        fetch('/store/chart')
+            .then(response => response.json())
+            .then(data => {
+                // Access chart data here and render the chart using your preferred charting library (e.g., Chart.js, D3.js, etc.)
+                console.log(data); // Log the chart data to verify
+            })
+            .catch(error => console.error(error));
+    </script>
 </body>
 </html>
