@@ -65,27 +65,30 @@ async function renderStoreAnalysisPage(req: Request, res: Response): Promise<voi
   }
 }
 
+// Define the ChartData interface
 interface ChartData {
   labels: string[];
   profileViews: number[];
 }
 
+// Use the ChartData interface as a type annotation
 async function generateStoreChart(req: Request, res: Response): Promise<void> {
   try {
-    // Retrieve all stores from the database
+    // Retrieve data from the database
     const stores = await getAllStores();
 
-    // Extract store names and profile views for the chart data
+    // Format data as JSON
     const chartData: ChartData = {
       labels: stores.map((store) => store.storeName),
       profileViews: stores.map((store) => store.profileViews),
     };
 
-    // Render the chart
-    res.render('storeChart', { chartData });
+    // Send JSON response
+    res.json(chartData);
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal server error');
+    // Handle errors
+    console.error('Error generating store chart:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
 
