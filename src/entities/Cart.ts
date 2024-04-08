@@ -1,4 +1,4 @@
-import { Entity, Relation, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable} from 'typeorm';
+import { Entity, Relation, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 import { User } from './User';
 
 @Entity()
@@ -22,9 +22,9 @@ export class cartItem {
   // Adding a flag to mark if the item is in the cart
   @Column({ default: false })
   isInCart: boolean;
-  
-  //Define Many-to - One relationship with User
-  @ManyToMany(() => User, (user) => user.cartItems, { cascade: ['insert', 'update']})
+
+  // Define Many-to - One relationship with User
+  @ManyToMany(() => User, (user) => user.cartItems, { cascade: ['insert', 'update'] })
   @JoinTable()
   user: Relation<User>[];
 }
