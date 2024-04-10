@@ -1,6 +1,8 @@
 import { AppDataSource } from '../dataSource';
 import { cartItem } from '../entities/Cart';
 
+import { getUserById } from './UserModel';
+
 const cartItemRepository = AppDataSource.getRepository(cartItem);
 
 async function getItemById(cartItemId: string): Promise<cartItem | null> {
@@ -11,14 +13,17 @@ async function getItemByName(cartItemName: string): Promise<cartItem | null> {
   return await cartItemRepository.findOne({ where: { cartItemName } });
 }
 
-async function addItem(cartItemName: string, quantity: number, description: string, price: number): Promise<cartItem> {
+async function addItem(cartItemName: string, quantity: number, description: string, price: number, userId: string): Promise<cartItem> {
   const newItem = cartItemRepository.create({
     cartItemName,
     quantity,
     description,
     price,
-    isInCart: true
+    isInCart: true,
   });
+
+  newItem.user = [await getUserById(userId)];
+
   return await cartItemRepository.save(newItem);
 }
 

@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
-import { 
+import {
   addItem, removeItem, getItemsInCart
 } from '../models/CartModel';
 
 async function addItemToCart(req: Request, res: Response): Promise<void> {
   try {
-    const { cartItemName, quantity, description, price } = req.body;
-    const newItem = await addItem(cartItemName, quantity, description, price);
+    /////FIX USER ID TO CURRENT SESSION ID///////
+    const { cartItemName, quantity, description, price, userId } = req.body;
+    const newItem = await addItem(cartItemName, quantity, description, price, userId);
     res.status(201).json(newItem);
   } catch (error) {
     console.error('Error adding item to cart:', error);
