@@ -29,11 +29,15 @@
 
       <li style="margin-top: 5px;">
         <%= itemList[i].itemName %>
-
+          <!--{ cartItemName, quantity, description, price, userId, storeId }-->
           <div style="display: inline;">
             <form style="display: inline;" method="POST" action="/addToCard">
-              <input type="hidden" id="itemCart" name="itemCart" value="<%=itemList[i].itemName%>">
-              <input type="hidden" id="storeName" name="storeName" value="<%=store%>">
+              <input type="hidden" id="cartItemName" name="cartItemName" value="<%=itemList[i].itemName%>">
+              <input type="hidden" id="stock" name="stock" value="<%=itemList[i].stock%>">
+              <input type="hidden" id="description" name="description" value="<%=itemList[i].description%>">
+              <input type="hidden" id="price" name="price" value="<%=itemList[i].price%>">
+              <input type="hidden" id="userId" name="userId" value="<%=itemList[i].itemName%>">
+              <input type="hidden" id="storeId" name="storeId" value="<%=store.storeId%>">
               <button>Add <%=itemList[i].itemName%> to cart</button>
             </form>
           </div>
