@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><Cart</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <title>
+        <Cart< /title>
+            <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
@@ -19,23 +20,29 @@
 
     <div class="cart">
         <h2>Shopping Cart</h2>
-        <% if (cartItems.length > 0) { %>
+        <% if (cartItems.length> 0) { %>
             <ul>
-                <% cartItems.forEach((item) => { %>
+                <% cartItems.forEach((item)=> { %>
                     <li>
                         <div>
-                            <h3><%= item.cartItemName %></h3>
-                            <p>Quantity: <%= item.quantity %></p>
-                            <p>Description: <%= item.description %></p>
-                            <p>Price: $<%= item.price.toFixed(2) %></p>
+                            <h3>
+                                <%= item.cartItemName %>
+                            </h3>
+                            <p>Quantity: <%= item.quantity %>
+                            </p>
+                            <p>Description: <%= item.description %>
+                            </p>
+                            <p>Price: $<%= item.price.toFixed(2) %>
+                            </p>
                         </div>
                     </li>
-                <% }); %>
+                    <% }); %>
             </ul>
-            <p>Total Items: <%= cartItems.length %></p>
-        <% } else { %>
-            <p>Your cart is empty.</p>
-        <% } %>
+            <p>Total Items: <%= cartItems.length %>
+            </p>
+            <% } else { %>
+                <p>Your cart is empty.</p>
+                <% } %>
     </div>
 
 </body>

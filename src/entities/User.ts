@@ -6,6 +6,7 @@ import {
   ManyToMany,
   Relation,
   JoinTable,
+  OneToMany
 } from 'typeorm';
 
 import { Mall } from './Mall';
@@ -37,7 +38,7 @@ export class User {
   canElevate: boolean;
 
   // Define One-to-Many relationship with cartItem
-  @ManyToMany(() => cartItem, (cartItem) => cartItem.user, { cascade: ['insert', 'update']})
+  @OneToMany(() => cartItem, (cartItem) => cartItem.user, { cascade: ['insert', 'update'] })
   cartItems: Relation<cartItem>[]; // Define the property to hold related cartItems
 
   @ManyToOne(() => Mall, (mall) => mall.users)

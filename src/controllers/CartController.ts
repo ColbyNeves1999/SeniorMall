@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import {
-  addItem, removeItem, getItemsInCart
+  addItem, removeItem, getItemsInCart, getAllUserItems
 } from '../models/CartModel';
 import { getItemByStoreId } from '../models/ItemModel';
 import { getStoreById } from '../models/StoreModel';
@@ -45,8 +45,15 @@ async function getItemsInCartHandler(req: Request, res: Response): Promise<void>
 
 async function removeItemFromCart(req: Request, res: Response): Promise<void> {
   try {
-    const cartItemId = req.params.id;
-    await removeItem(cartItemId);
+    //const cartItemId = req.params.id;
+    const { authenticatedUser } = req.session;
+
+    ///I AM WORKING ON DELETION OF ITEMS HERE///
+    const temp = await getAllUserItems(authenticatedUser.userId);
+
+    await removeItem(temp[0].cartItemId);
+    //////////
+
     res.status(204).end();
   } catch (error) {
     console.error('Error removing item from cart:', error);

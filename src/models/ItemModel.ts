@@ -52,12 +52,12 @@ async function setItemStock(itemId: string, stock: number): Promise<void> {
 }
 
 async function updateItemStock(item: Item, stock: number, subOrAdd: string): Promise<void> {
-  if(subOrAdd === "Subtract"){
+  if (subOrAdd === "Subtract") {
     item.stock = item.stock - stock;
-  }else if(subOrAdd === "Add"){
+  } else if (subOrAdd === "Add") {
     item.stock = item.stock + stock;
   }
-  
+
   item = await itemRepository.save(item);
 }
 
