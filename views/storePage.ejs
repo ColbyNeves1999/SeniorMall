@@ -28,7 +28,20 @@
     <% for(var i=0; i<itemList.length; i++) {%>
 
       <li style="margin-top: 5px;">
-        <%= itemList[i].itemName %> <button>Add <%=itemList[i].itemName%> to cart</button>
+        <%= itemList[i].itemName %>
+
+          <div style="display: inline;">
+            <form style="display: inline;" method="POST" action="/addToCard">
+              <input type="hidden" id="itemCart" name="itemCart" value="<%=itemList[i].itemName%>">
+              <input type="hidden" id="storeName" name="storeName" value="<%=store%>">
+              <button>Add <%=itemList[i].itemName%> to cart</button>
+            </form>
+          </div>
+
+
+          <div>
+            There are <%= itemList[i].stock %> in stock.
+          </div>
       </li>
 
       <% } %>

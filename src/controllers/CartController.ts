@@ -2,17 +2,34 @@ import { Request, Response } from 'express';
 import {
   addItem, removeItem, getItemsInCart
 } from '../models/CartModel';
+import { getItemByStoreId } from '../models/ItemModel';
+import { getStoreById } from '../models/StoreModel';
 
 async function addItemToCart(req: Request, res: Response): Promise<void> {
-  try {
-    /////FIX USER ID TO CURRENT SESSION ID///////
-    const { cartItemName, quantity, description, price, userId } = req.body;
-    const newItem = await addItem(cartItemName, quantity, description, price, userId);
-    res.status(201).json(newItem);
-  } catch (error) {
-    console.error('Error adding item to cart:', error);
-    res.status(500).send('Internal server error');
-  }
+
+  const { itemCart, storeId } = req.body as { itemCart: string, storeId: string };
+
+  const store = await getStoreById(storeId);
+  const itemList = await getItemByStoreId(storeId);
+
+  console.log(itemCart);
+
+  res.render(`storePage`, { store, itemList });
+
+  //console.log(itemCart);
+  //res.status(200);
+  //try {
+  /////FIX USER ID TO CURRENT SESSION ID///////
+  //const { cartItemName, quantity, description, price, userId } = req.body;
+  //const newItem = await addItem(cartItemName, quantity, description, price, userId);
+  //res.status(201).json(newItem);
+  //} catch (error) {
+  //console.error('Error adding item to cart:', error);
+  //res.status(500).send('Internal server error');
+  //}
+
+
+
 }
 
 async function getItemsInCartHandler(req: Request, res: Response): Promise<void> {

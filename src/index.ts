@@ -6,7 +6,7 @@ import connectSqlite3 from 'connect-sqlite3';
 import { scheduleJob } from 'node-schedule';
 
 import { lookForAdmin } from './models/UserModel';
-import { renderCart } from './controllers/CartController';
+import { renderCart, addItemToCart } from './controllers/CartController';
 
 import {
   getAllUserProfiles,
@@ -82,6 +82,7 @@ app.post('/elevate', updateUserAdminPermissions);
 app.get('/storeInfo', renderStoreAnalysisPage);
 app.get('/store/chart', generateStoreChart);
 
+app.post("/addToCard", addItemToCart)
 app.get('/cart', renderCart);
 
 app.listen(PORT, () => {
