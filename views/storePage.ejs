@@ -24,9 +24,15 @@
 </header>
 
 <body>
-  <% for(var i=0; i<itemList.length; i++) {%>
-    <%= itemList[i].itemName %>
+  <ul style="list-style-type: square;">
+    <% for(var i=0; i<itemList.length; i++) {%>
+
+      <li style="margin-top: 5px;">
+        <%= itemList[i].itemName %> <button>Add <%=itemList[i].itemName%> to cart</button>
+      </li>
+
       <% } %>
+  </ul>
 </body>
 
 </html>
