@@ -51,9 +51,13 @@ async function setItemStock(itemId: string, stock: number): Promise<void> {
   item = await itemRepository.save(item);
 }
 
-async function updateItemStock(item: Item, stock: number): Promise<void> {
-  item.stock += stock;
-
+async function updateItemStock(item: Item, stock: number, subOrAdd: string): Promise<void> {
+  if(subOrAdd === "Subtract"){
+    item.stock = item.stock - stock;
+  }else if(subOrAdd === "Add"){
+    item.stock = item.stock + stock;
+  }
+  
   item = await itemRepository.save(item);
 }
 
@@ -61,4 +65,12 @@ async function getUserByName(itemName: string): Promise<Item | null> {
   return itemRepository.findOne({ where: { itemName } });
 }
 
-export { getItemById, getItemByName, addItem, setItemStock, getUserByName, updateItemStock, getItemByStoreId };
+async function deleteItemById(itemId: string): Promise<void> {
+  await itemRepository
+    .createQueryBuilder('user')
+    .delete()
+    .where('itemId = :itemId', { itemId })
+    .execute();
+}
+
+export { getItemById, getItemByName, addItem, setItemStock, getUserByName, updateItemStock, getItemByStoreId, deleteItemById };

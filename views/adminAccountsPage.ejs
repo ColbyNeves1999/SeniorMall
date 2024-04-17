@@ -94,9 +94,9 @@
                     <input name="itemDescription" id="itemDescription" class="itemDescription" placeholder="Description"
                         type="itemDescription" required>
 
-                    <label for="associatedStore"></label>
-                    <input name="associatedStore" id="associatedStore" class="associatedStore" placeholder="Store"
-                        type="associatedStore" required>
+                    <label for="storeName"></label>
+                    <input name="storeName" id="storeName" class="storeName" placeholder="Store"
+                        type="storeName" required>
 
                     <button class="btn">Create Item</button>
                 </form>
@@ -110,6 +110,11 @@
 
                     <label for="itemName"></label>
                     <input name="itemName" id="itemName" class="itemName" placeholder="Name" type="itemName" required>
+
+                    <input type="radio" id="Add" name="subOrAdd" value="Add" checked>
+                    <label for="Add">Add</label>
+                    <input type="radio" id="Subtract" name="subOrAdd" value="Subtract">
+                    <label for="Subtract">Subtract</label>
 
                     <label for="itemStock"></label>
                     <input name="itemStock" id="itemStock" class="itemStock" placeholder="Stock" type="itemStock"

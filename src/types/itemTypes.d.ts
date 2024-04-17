@@ -1,6 +1,6 @@
 type NewItemRequest = {
   itemName: string;
-  stock: number;
+  itemStock: string;
   itemDescription: string;
   storeName: string;
 };
