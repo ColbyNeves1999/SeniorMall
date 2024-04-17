@@ -266,7 +266,6 @@ async function updateUserAdminPermissions(req: Request, res: Response): Promise<
     // Email of an admin user, grant/take away admin status, grant/take away elevation status
     const { email, adminStatus, elevationStatus } = req.body as newAdmin;
 
-    console.log(adminStatus, elevationStatus);
     const user = await getUserByEmail(email);
     if (user) {
       await updateAdminStatus(user.userId, adminStatus);

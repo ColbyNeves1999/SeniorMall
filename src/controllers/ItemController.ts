@@ -4,7 +4,6 @@ import { getItemByName, addItem, updateItemStock, deleteItemById } from '../mode
 
 async function itemCreator(req: Request, res: Response): Promise<void> {
   const { itemName, itemStock, itemDescription, storeName } = req.body as NewItemRequest;
-  console.log(itemName, itemStock, itemDescription, storeName);
 
   const temp = parseInt(itemStock);
   const itemExists = await getItemByName(itemName);
@@ -21,7 +20,7 @@ async function itemCreator(req: Request, res: Response): Promise<void> {
 async function itemStockModifier(req: Request, res: Response): Promise<void> {
   // Store name is taken for verification purposes that will be added later
   const { itemName, itemStock, itemDescription, storeName } = req.body as NewItemRequest;
-  const {subOrAdd} = req.body as {subOrAdd: string};
+  const { subOrAdd } = req.body as { subOrAdd: string };
 
   const temp = parseInt(itemStock);
 
@@ -34,7 +33,7 @@ async function itemStockModifier(req: Request, res: Response): Promise<void> {
     await updateItemStock(itemExists, temp, subOrAdd);
   }
 
-  if(itemExists.stock <= 0){
+  if (itemExists.stock <= 0) {
 
     await deleteItemById(itemExists.itemId);
 

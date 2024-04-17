@@ -8,23 +8,21 @@ import { getStoreById } from '../models/StoreModel';
 async function addItemToCart(req: Request, res: Response): Promise<void> {
   const { isLoggedIn, authenticatedUser } = req.session;
 
-  //const { cartItemName, storeId } = req.body as { cartItemName: string, storeId: string };
+  if (!isLoggedIn) {
+    res.redirect('/login'); // 404 Not Found
+    return;
+  }
 
   try {
-    /////FIX USER ID TO CURRENT SESSION ID///////
-    const { cartItemName, stock, description, price, storeId } = req.body;
-    console.log(cartItemName, stock, description, price, authenticatedUser.userId, storeId);
 
+    const { cartItemName, stock, description, price, storeId } = req.body;
 
     const store = await getStoreById(storeId);
     const itemList = await getItemByStoreId(storeId);
 
-    const newItem = await addItem(cartItemName, stock, description, price, stock);
-
     await addItem(cartItemName, stock, description, price, authenticatedUser.userId);
-    res.render('storePage', { store, itemList });
 
-    //res.status(201).json(newItem);
+    res.render('storePage', { store, itemList });
 
   } catch (error) {
 
