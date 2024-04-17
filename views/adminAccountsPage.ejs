@@ -95,15 +95,15 @@
                         type="itemDescription" required>
 
                     <label for="storeName"></label>
-                    <input name="storeName" id="storeName" class="storeName" placeholder="Store"
-                        type="storeName" required>
+                    <input name="storeName" id="storeName" class="storeName" placeholder="Store" type="storeName"
+                        required>
 
                     <button class="btn">Create Item</button>
                 </form>
             </div>
         </section>
 
-        <h2>Modify store stock. Submit as positive to add, Negative to subtract.</h2>
+        <h2>Modify store stock.</h2>
         <section>
             <div class="form">
                 <form method="POST" action="/itemStockModifier">
@@ -111,10 +111,12 @@
                     <label for="itemName"></label>
                     <input name="itemName" id="itemName" class="itemName" placeholder="Name" type="itemName" required>
 
-                    <input type="radio" id="Add" name="subOrAdd" value="Add" checked>
-                    <label for="Add">Add</label>
-                    <input type="radio" id="Subtract" name="subOrAdd" value="Subtract">
-                    <label for="Subtract">Subtract</label>
+                    <div style="display: inline; border-style: solid; border-width: 2px;">
+                        <input type="radio" id="Add" name="subOrAdd" value="Add" checked>
+                        <label for="Add">Add</label>
+                        <input type="radio" id="Subtract" name="subOrAdd" value="Subtract">
+                        <label for="Subtract">Subtract</label>
+                    </div>
 
                     <label for="itemStock"></label>
                     <input name="itemStock" id="itemStock" class="itemStock" placeholder="Stock" type="itemStock"
@@ -137,14 +139,24 @@
                     <label for="email"></label>
                     <input name="email" id="email" class="email" placeholder="email" type="email" required>
 
-                    <label for="adminStatus"></label>
+                    <!--<label for="adminStatus"></label>
                     <input name="adminStatus" id="adminStatus" class="adminStatus" placeholder="adminStatus"
-                        type="adminStatus" required>
-
-                    <label for="elevationStatus"></label>
+                        type="adminStatus" required>-->
+                    <div style="display: inline; border-style: solid; border-width: 2px;">
+                        <input type="radio" id="adminStatus" name="adminStatus" value="elevate">
+                        <label for="adminStatus">Admin Status</label>
+                        <input type="radio" id="adminStatus" name="adminStatus" value="deelevate" checked>
+                        <label for="adminStatus">Admin Status</label>
+                    </div>
+                    <!--<label for="elevationStatus"></label>
                     <input name="elevationStatus" id="elevationStatus" class="elevationStatus"
-                        placeholder="elevationStatus" type="elevationStatus" required>
-
+                        placeholder="elevationStatus" type="elevationStatus" required>-->
+                    <div style="display: inline; border-style: solid; border-width: 2px;">
+                        <input type="radio" id="elevationStatus" name="elevationStatus" value="elevate">
+                        <label for="elevationStatus">Elevation Status</label>
+                        <input type="radio" id="elevationStatus" name="elevationStatus" value="deelevate" checked>
+                        <label for="elevationStatus">Elevation Status</label>
+                    </div>
                     <button class="btn">Change Stock</button>
                 </form>
             </div>

@@ -259,19 +259,27 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
   // res.sendStatus(200);
 }
 
-async function updateUserAdminPermissions(req: Request): Promise<void> {
+async function updateUserAdminPermissions(req: Request, res: Response): Promise<void> {
   const { isLoggedIn, authenticatedUser } = req.session;
 
   if (isLoggedIn && authenticatedUser.adminElevation === true) {
     // Email of an admin user, grant/take away admin status, grant/take away elevation status
     const { email, adminStatus, elevationStatus } = req.body as newAdmin;
 
+    console.log(adminStatus, elevationStatus);
     const user = await getUserByEmail(email);
     if (user) {
       await updateAdminStatus(user.userId, adminStatus);
       await updateElevationStatus(user.userId, elevationStatus);
     }
   }
+
+  const user = await getUserByEmail(authenticatedUser.email);
+
+  if (user.admin) {
+    res.render('adminAccountsPage', { user });
+  }
+
 }
 
 export {
