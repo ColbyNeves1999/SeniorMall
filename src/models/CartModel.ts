@@ -10,10 +10,6 @@ async function getItemById(cartItemId: string): Promise<cartItem | null> {
   return await cartItemRepository.findOne({ where: { cartItemId } });
 }
 
-/*async function getItemByName(cartItemName: string): Promise<cartItem | null> {
-  return await cartItemRepository.findOne({ where: { cartItemName } });
-}*/
-
 async function addItem(cartItemName: string, quantity: number, description: string, price: number, userId: string, storeName: string): Promise<cartItem> {
   const user = await getUserById(userId);
   const item = await getItemByName(cartItemName)
