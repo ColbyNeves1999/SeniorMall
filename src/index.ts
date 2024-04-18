@@ -25,6 +25,7 @@ import {
   renderStoreAnalysisPage,
   renderStorePage,
   generateStoreChart,
+  renderHeldPage
 } from './controllers/StoreController';
 import { itemCreator, itemStockModifier } from './controllers/ItemController';
 import { renderMainPage } from './controllers/PageController';
@@ -59,6 +60,7 @@ app.set('view engine', 'ejs');
 // endpoints
 
 app.post('/storePage', renderStorePage);
+app.post('/heldPage', renderHeldPage);
 app.get('/', renderMainPage);
 
 app.get('/api/users', getAllUserProfiles);

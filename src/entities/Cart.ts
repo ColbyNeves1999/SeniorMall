@@ -15,6 +15,9 @@ export class cartItem {
   @Column()
   description: string;
 
+  @Column()
+  store: string;
+
   // Adding price for each item
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;

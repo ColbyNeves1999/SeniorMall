@@ -22,7 +22,15 @@
         <div class="store-info">
             <% stores.forEach(store => { %>
             <div class="store">
-                <h2><%= store.storeName %></h2>
+                <h2><%= store.storeName %>
+                    <div >
+                        <form method="POST" action="/heldPage">
+                            <input type="hidden" id="storeName" name="storeName" value="<%=store.storeName%>">
+                            <button style="margin-left: 10px;">Check Requested Held Items</button>
+                        </form>
+                    </div>
+                    
+                </h2>
                 <img src="/imgs/<%= store.storeName %>.png" width="400" height="300">
                 <p>
                     <span class="store-profile-views"> Store Profile views: <%= store.profileViews %></span>

@@ -15,12 +15,12 @@ async function addItemToCart(req: Request, res: Response): Promise<void> {
 
   try {
 
-    const { cartItemName, stock, description, price, storeId } = req.body;
+    const { cartItemName, description, price, storeId } = req.body;
 
     const store = await getStoreById(storeId);
     const itemList = await getItemByStoreId(storeId);
 
-    await addItem(cartItemName, stock, description, price, authenticatedUser.userId);
+    await addItem(cartItemName, 1, description, price, authenticatedUser.userId, store.storeName);
 
     res.render('storePage', { store, itemList });
 
@@ -83,4 +83,4 @@ async function renderCart(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { addItemToCart, getItemsInCartHandler, removeItemFromCart, renderCart };
+export { addItemToCart, getItemsInCartHandler, removeItemFromCart, renderCart,  };

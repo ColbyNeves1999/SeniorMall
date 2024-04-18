@@ -13,13 +13,14 @@ async function getItemByName(cartItemName: string): Promise<cartItem | null> {
   return await cartItemRepository.findOne({ where: { cartItemName } });
 }
 
-async function addItem(cartItemName: string, quantity: number, description: string, price: number, userId: string): Promise<cartItem> {
+async function addItem(cartItemName: string, quantity: number, description: string, price: number, userId: string, storeName: string): Promise<cartItem> {
   const newItem = cartItemRepository.create({
     cartItemName,
     quantity,
     description,
     price,
     isInCart: true,
+    store: storeName,
   });
 
   newItem.user = await getUserById(userId);
@@ -54,4 +55,14 @@ async function getAllUserItems(userId: string): Promise<cartItem[]> {
 
 }
 
-export { getItemById, getItemByName, addItem, updateItem, removeItem, getItemsInCart, getAllUserItems };
+async function getItemsBeingHeld(storeName: string): Promise<cartItem[]> {
+  const temp = await cartItemRepository
+    .createQueryBuilder('item')
+    .where('store = :storeName', { storeName })
+    .getMany();
+
+  return temp;
+
+}
+
+export { getItemById, getItemByName, addItem, updateItem, removeItem, getItemsInCart, getAllUserItems, getItemsBeingHeld };

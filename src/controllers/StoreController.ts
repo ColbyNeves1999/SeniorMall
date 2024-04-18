@@ -7,6 +7,7 @@ import {
   getStoreById,
 } from '../models/StoreModel';
 import { getItemByStoreId } from '../models/ItemModel';
+import { getItemsBeingHeld } from '../models/CartModel';
 
 async function getAllStoreProfiles(req: Request, res: Response): Promise<void> {
   res.json(await getAllStores());
@@ -53,6 +54,25 @@ async function renderStorePage(req: Request, res: Response): Promise<void> {
   }
 }
 
+async function renderHeldPage(req: Request, res: Response): Promise<void> {
+  const { storeName } = req.body as NewStoreRequest;
+  const { authenticatedUser } = req.session;
+
+  if(authenticatedUser){
+    const store = await getStoreByName(storeName);
+    if (store) {
+
+      const heldList = await getItemsBeingHeld(storeName);
+
+      res.render('heldPage', { store, heldList });
+    } else {
+      res.redirect('/');
+    }
+  }
+  
+  
+}
+
 async function renderStoreAnalysisPage(req: Request, res: Response): Promise<void> {
   try {
     const stores = await getAllStores(); // Retrieve all stores from the database
@@ -97,4 +117,5 @@ export {
   renderStorePage,
   renderStoreAnalysisPage,
   generateStoreChart,
+  renderHeldPage
 };
