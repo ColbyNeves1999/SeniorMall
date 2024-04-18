@@ -33,7 +33,12 @@
                             </p>
                             <p>Description: <%= item.description %>
                             </p>
-                            
+                            <div style="display: inline;">
+                                <form style="display: inline;" method="POST" action="/removeFromCart">
+                                  <input type="hidden" id="cartItemId" name="cartItemId" value="<%=item.cartItemId%>">
+                                  <button>Remove <%=item.itemName%> from cart</button>
+                                </form>
+                              </div>
                         </div>
                     </li>
                     <% }); %>

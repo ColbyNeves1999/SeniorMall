@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import {
-  addItem, removeItem, getItemsInCart, getAllUserItems
+  addItem, removeItem, getItemsInCart
 } from '../models/CartModel';
 import { getItemByStoreId } from '../models/ItemModel';
 import { getStoreById } from '../models/StoreModel';
@@ -46,20 +46,19 @@ async function getItemsInCartHandler(req: Request, res: Response): Promise<void>
 async function removeItemFromCart(req: Request, res: Response): Promise<void> {
   try {
     //const cartItemId = req.params.id;
-    const { isLoggedIn, authenticatedUser } = req.session;
+    const { isLoggedIn } = req.session;
+    const { cartItemId } = req.body;
 
     if (!isLoggedIn) {
       res.redirect('/login'); // 404 Not Found
       return;
     }
 
-    ///I AM WORKING ON DELETION OF ITEMS HERE///
-    const temp = await getAllUserItems(authenticatedUser.userId);
-    
-    await removeItem(temp[0].cartItemId);
-    //////////
+    await removeItem(cartItemId);
 
-    res.status(204).end();
+    res.redirect('/cart');
+
+    //res.status(204).end();
   } catch (error) {
     console.error('Error removing item from cart:', error);
     res.status(500).send('Internal server error');
@@ -67,6 +66,14 @@ async function removeItemFromCart(req: Request, res: Response): Promise<void> {
 }
 
 async function renderCart(req: Request, res: Response): Promise<void> {
+
+  const { isLoggedIn } = req.session;
+
+  if (!isLoggedIn) {
+    res.redirect('/login'); // 404 Not Found
+    return;
+  }
+
   try {
     const cartItems = await getItemsInCart();
     res.render('cart', { cartItems });
