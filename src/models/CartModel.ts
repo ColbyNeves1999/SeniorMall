@@ -2,6 +2,7 @@ import { AppDataSource } from '../dataSource';
 import { cartItem } from '../entities/Cart';
 
 import { getUserById } from './UserModel';
+import { getItemByName } from './ItemModel';
 
 const cartItemRepository = AppDataSource.getRepository(cartItem);
 
@@ -9,23 +10,34 @@ async function getItemById(cartItemId: string): Promise<cartItem | null> {
   return await cartItemRepository.findOne({ where: { cartItemId } });
 }
 
-async function getItemByName(cartItemName: string): Promise<cartItem | null> {
+/*async function getItemByName(cartItemName: string): Promise<cartItem | null> {
   return await cartItemRepository.findOne({ where: { cartItemName } });
-}
+}*/
 
 async function addItem(cartItemName: string, quantity: number, description: string, price: number, userId: string, storeName: string): Promise<cartItem> {
-  const newItem = cartItemRepository.create({
-    cartItemName,
-    quantity,
-    description,
-    price,
-    isInCart: true,
-    store: storeName,
-  });
+  const user = await getUserById(userId);
+  const item = await getItemByName(cartItemName)
+  const temp = await cartItemRepository.findOne({ where: { cartItemName: cartItemName, user: user } });
 
-  newItem.user = await getUserById(userId);
+  if(!temp){
+    const newItem = cartItemRepository.create({
+      cartItemName,
+      quantity,
+      description,
+      price,
+      isInCart: true,
+      store: storeName,
+    });
+    newItem.user = await getUserById(userId);
 
-  return await cartItemRepository.save(newItem);
+    return await cartItemRepository.save(newItem);
+  }else{
+    if(temp.quantity < item.stock){
+      temp.quantity = temp.quantity + 1;
+    }
+    return await cartItemRepository.save(temp);
+  }
+
 }
 
 async function updateItem(cartItem: cartItem): Promise<cartItem> {
