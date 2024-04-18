@@ -29,9 +29,8 @@
 
       <li style="margin-top: 5px;">
         <%= itemList[i].itemName %>
-          <!--{ cartItemName, quantity, description, price, userId, storeId }-->
           <div style="display: inline;">
-            <form style="display: inline;" method="POST" action="/addToCard">
+            <form style="display: inline;" method="POST" action="/addToCart">
               <input type="hidden" id="cartItemName" name="cartItemName" value="<%=itemList[i].itemName%>">
               <input type="hidden" id="stock" name="stock" value="<%=itemList[i].stock%>">
               <input type="hidden" id="description" name="description" value="<%=itemList[i].description%>">

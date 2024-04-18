@@ -2,7 +2,7 @@ import { AppDataSource } from '../dataSource';
 import { cartItem } from '../entities/Cart';
 
 import { getUserById } from './UserModel';
-import { getItemByName } from './ItemModel';
+import { getItemByName, updateItemStock } from './ItemModel';
 
 const cartItemRepository = AppDataSource.getRepository(cartItem);
 
@@ -34,10 +34,6 @@ async function addItem(cartItemName: string, quantity: number, description: stri
     return await cartItemRepository.save(temp);
   }
 
-}
-
-async function updateItem(cartItem: cartItem): Promise<cartItem> {
-  return await cartItemRepository.save(cartItem);
 }
 
 async function removeItem(cartItemId: string): Promise<void> {
@@ -73,4 +69,12 @@ async function getItemsBeingHeld(storeName: string): Promise<cartItem[]> {
 
 }
 
-export { getItemById, getItemByName, addItem, updateItem, removeItem, getItemsInCart, getAllUserItems, getItemsBeingHeld };
+async function orderCloser(itemName: string, fulfilled: number): Promise<void> {
+
+  const tempItem = await getItemByName(itemName);
+
+  await updateItemStock(tempItem, fulfilled, "Subtract");
+
+}
+
+export { getItemById, getItemByName, addItem, removeItem, getItemsInCart, getAllUserItems, getItemsBeingHeld, orderCloser };

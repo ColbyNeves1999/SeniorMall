@@ -26,8 +26,14 @@
               <li style="margin-top: 5px;">
                 <%= heldList[i].cartItemName %>
                 <div>Requested: <%= heldList[i].quantity %></div>
-                <button>Sold</button>
-                <button>Closed</button>
+
+                <form style="display: inline;" method="POST" action="/closeOrder">
+                    <input type="hidden" id="cartItemId" name="cartItemId" value="<%=heldList[i].cartItemId%>">
+                    <input name="fulfilled" id="fulfilled" class="fulfilled" placeholder="fulfilled" type="fulfilled" required>
+                    <input type="hidden" id="storeName" name="storeName" value="<%=store.Name%>">
+                    <button>Closed</button>
+                </form>
+
               </li>
         
               <% } %>

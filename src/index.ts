@@ -6,7 +6,7 @@ import connectSqlite3 from 'connect-sqlite3';
 import { scheduleJob } from 'node-schedule';
 
 import { lookForAdmin } from './models/UserModel';
-import { renderCart, addItemToCart, removeItemFromCart } from './controllers/CartController';
+import { renderCart, addItemToCart, removeItemFromCart, closingOrder } from './controllers/CartController';
 
 import {
   getAllUserProfiles,
@@ -59,13 +59,15 @@ app.use(express.static('public', { extensions: ['html'] }));
 app.set('view engine', 'ejs');
 // endpoints
 
+app.get('/', renderMainPage); //Generates an ejs for the main page
+
 app.post('/storePage', renderStorePage);
 app.post('/heldPage', renderHeldPage);
-app.get('/', renderMainPage);
+app.get('/cart', renderCart);
 
 app.get('/api/users', getAllUserProfiles);
 
-app.post('/registerUser', registerUser); // Registers a user
+
 app.post('/login', logIn); // Lets a user login
 app.get('/logout', logOut); // Lets a user logout
 
@@ -73,21 +75,25 @@ app.get('/users/userAccountsPage', renderProfilePage);
 
 app.post('/users/delete', deleteAccount);
 app.post('/users/changePassword', updateUserPassword);
-app.get('/cartPage', renderCart);
+app.get('/cartPage', renderCart); //Renders a user's card
 
 app.get('/userHomepage', userHomePage); // Displays the user's homepage
 
-app.post('/createStore', storeCreator);
-app.post('/createitem', itemCreator);
+app.post('/registerUser', registerUser); // Registers a user
+app.post('/createStore', storeCreator); // Creates stores
+app.post('/createitem', itemCreator); // Creates items
+
+
 app.post('/itemStockModifier', itemStockModifier);
 app.post('/elevate', updateUserAdminPermissions);
 
 app.get('/storeInfo', renderStoreAnalysisPage);
 app.get('/store/chart', generateStoreChart);
 
-app.post("/addToCard", addItemToCart)
-app.get('/cart', renderCart);
+app.post("/addToCart", addItemToCart)
 app.post('/removeFromCart', removeItemFromCart);
+
+app.post('/closeOrder', closingOrder);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);

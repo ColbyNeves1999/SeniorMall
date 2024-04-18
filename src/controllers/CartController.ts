@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import {
-  addItem, removeItem, getItemsInCart
+  addItem, removeItem, getItemsInCart, getItemById,
+  orderCloser, getItemsBeingHeld
 } from '../models/CartModel';
-import { getItemByStoreId } from '../models/ItemModel';
-import { getStoreById } from '../models/StoreModel';
+import { getStoreById, getStoreByName } from '../models/StoreModel';
 
 async function addItemToCart(req: Request, res: Response): Promise<void> {
   const { isLoggedIn, authenticatedUser } = req.session;
@@ -18,11 +18,10 @@ async function addItemToCart(req: Request, res: Response): Promise<void> {
     const { cartItemName, description, price, storeId } = req.body;
 
     const store = await getStoreById(storeId);
-    const itemList = await getItemByStoreId(storeId);
 
     await addItem(cartItemName, 1, description, price, authenticatedUser.userId, store.storeName);
 
-    res.render('storePage', { store, itemList });
+    res.status(204).end();
 
   } catch (error) {
 
@@ -65,6 +64,39 @@ async function removeItemFromCart(req: Request, res: Response): Promise<void> {
   }
 }
 
+async function closingOrder(req: Request, res: Response): Promise<void> {
+  try {
+    //const cartItemId = req.params.id;
+    const { isLoggedIn } = req.session;
+    const { cartItemId, fulfilled, storeName } = req.body;
+
+    if (!isLoggedIn) {
+      res.redirect('/login'); // 404 Not Found
+      return;
+    }
+
+    const tempItem = await getItemById(cartItemId);
+    const tempFulfilled = await parseInt(fulfilled);
+
+    await removeItem(cartItemId);
+    await orderCloser(tempItem.cartItemName, tempFulfilled);
+
+    const store = await getStoreByName(storeName);
+    if (store) {
+
+      const heldList = await getItemsBeingHeld(storeName);
+
+      res.render('heldPage', { store, heldList });
+    }else{
+      res.redirect('/');
+    }
+
+  } catch (error) {
+    console.error('Error removing item from cart:', error);
+    res.status(500).send('Internal server error');
+  }
+}
+
 async function renderCart(req: Request, res: Response): Promise<void> {
 
   const { isLoggedIn } = req.session;
@@ -83,4 +115,4 @@ async function renderCart(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { addItemToCart, getItemsInCartHandler, removeItemFromCart, renderCart,  };
+export { addItemToCart, getItemsInCartHandler, removeItemFromCart, renderCart, closingOrder };

@@ -58,7 +58,12 @@ async function updateItemStock(item: Item, stock: number, subOrAdd: string): Pro
     item.stock = item.stock + stock;
   }
 
+
   item = await itemRepository.save(item);
+  if(item.stock <= 0){
+    await deleteItemById(item.itemId);
+  }
+  
 }
 
 async function getUserByName(itemName: string): Promise<Item | null> {
