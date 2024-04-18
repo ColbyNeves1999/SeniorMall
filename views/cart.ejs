@@ -2,25 +2,26 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="/css/style.css" />
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>
-        <Cart< /title>
-            <link rel="stylesheet" href="/css/style.css" />
+    <title>Homepage</title>
 </head>
 
 <body>
-    <header>
-        <h1>Welcome</h1>
-        <div>
-            <a href="/" class="btn">Home</a>
+    <h1>
+        <div>Senior Design Mall</div>
+            <a href="/" class="btn">
+                Home
+            </a>
         </div>
-    </header>
+    
+    </h1>
 
     <div class="cart">
         <h2>Shopping Cart</h2>
-        <% if (cartItems.length> 0) { %>
+        <% if (cartItems.length > 0) { %>
             <ul>
                 <% cartItems.forEach((item)=> { %>
                     <li>
@@ -32,8 +33,7 @@
                             </p>
                             <p>Description: <%= item.description %>
                             </p>
-                            <p>Price: $<%= item.price.toFixed(2) %>
-                            </p>
+                            
                         </div>
                     </li>
                     <% }); %>

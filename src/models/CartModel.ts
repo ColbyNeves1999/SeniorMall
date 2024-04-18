@@ -34,9 +34,9 @@ async function updateItem(cartItem: cartItem): Promise<cartItem> {
 async function removeItem(cartItemId: string): Promise<void> {
   const itemId = cartItemId;
   await cartItemRepository
-    .createQueryBuilder('user')
+    .createQueryBuilder('item')
     .delete()
-    .where('itemId = :itemId', { itemId })
+    .where('cartItemId = :itemId', { itemId })
     .execute();
 }
 
@@ -44,11 +44,11 @@ async function getItemsInCart(): Promise<cartItem[]> {
   return await cartItemRepository.find({ where: { isInCart: true } });
 }
 
-async function getAllUserItems(userId: string): Promise<[cartItem]> {
+async function getAllUserItems(userId: string): Promise<cartItem[]> {
   const temp = await cartItemRepository
-    .createQueryBuilder('user')
+    .createQueryBuilder('item')
     .where('userUserId = :userId', { userId })
-    .execute();
+    .getMany();
 
   return temp;
 

@@ -46,11 +46,16 @@ async function getItemsInCartHandler(req: Request, res: Response): Promise<void>
 async function removeItemFromCart(req: Request, res: Response): Promise<void> {
   try {
     //const cartItemId = req.params.id;
-    const { authenticatedUser } = req.session;
+    const { isLoggedIn, authenticatedUser } = req.session;
+
+    if (!isLoggedIn) {
+      res.redirect('/login'); // 404 Not Found
+      return;
+    }
 
     ///I AM WORKING ON DELETION OF ITEMS HERE///
     const temp = await getAllUserItems(authenticatedUser.userId);
-
+    
     await removeItem(temp[0].cartItemId);
     //////////
 
