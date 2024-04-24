@@ -29,7 +29,7 @@
                             <button style="margin-left: 10px;">Check Requested Held Items</button>
                         </form>
                     </div>
-                    
+
                 </h2>
                 <img src="/imgs/<%= store.storeName %>.png" width="400" height="300">
                 <p>
@@ -44,7 +44,7 @@
         <canvas id="storeChart"></canvas>
     </div>
 
-    <!-- Script to fetch chart data and render the chart -->
+    <<!-- Script to fetch chart data and render the chart -->>
     <script>
         fetch('/store/chart')
             .then(response => response.json())
@@ -64,7 +64,7 @@
                             data: profileViews,
                             backgroundColor: 'rgba(54, 162, 235, 0.5)',
                             borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
+                            borderWidth: 1,
                         }]
                     },
                     options: {
@@ -73,14 +73,32 @@
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'Store Name'
+                                    text: 'Store Name',
+                                    font: {
+                                      size: 40,
+                                      weight: 'bold',
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: 40
+                                    }
                                 }
                             },
                             y: {
                                 beginAtZero: true,
                                 title: {
                                     display: true,
-                                    text: 'Profile Views'
+                                    text: 'Profile Views',
+                                    font: {
+                                      size: 40,
+                                      weight: 'bold',
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: 40
+                                    }
                                 }
                             }
                         }
