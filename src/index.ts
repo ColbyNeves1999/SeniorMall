@@ -50,7 +50,7 @@ function iMakeSureAdminsExist() {
   lookForAdmin();
 }
 
-scheduleJob('20 03 * * *', iMakeSureAdminsExist);
+scheduleJob('23 03 * * *', iMakeSureAdminsExist);
 
 app.use(sessionMiddleware);
 app.use(express.json());
