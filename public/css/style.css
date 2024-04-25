@@ -120,13 +120,13 @@ button[type="submit"] {
 }
 
 .store-profile-views {
-  font-size: 100px;
+  font-size: 50px;
 }
 #storeChartContainer {
-  width: 2000px;
-  height: 1500px;
+  width: 1400px;
+  height: 900px;
 }
 #storeChart {
-  width: 2000%;
-  height: 1500%;
+  width: 700%;
+  height: 100%;
 }
