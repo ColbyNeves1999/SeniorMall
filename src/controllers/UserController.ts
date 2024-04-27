@@ -231,7 +231,7 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
   // NOTES: We need to make sure that this client is logged in AND
   //        they are try to modify their own user account
   if (!isLoggedIn) {
-    res.sendStatus(403); // 403 Forbidden
+    res.redirect('/login');
     return;
   }
 
