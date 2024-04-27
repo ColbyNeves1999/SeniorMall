@@ -8,7 +8,7 @@ async function getStoreById(storeId: string): Promise<Store | null> {
 }
 
 async function getAllStores(): Promise<Store[]> {
-  return storeRepository.find();
+  return await storeRepository.find();
 }
 
 async function addStore(
