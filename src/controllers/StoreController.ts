@@ -75,8 +75,7 @@ async function renderHeldPage(req: Request, res: Response): Promise<void> {
 
 async function renderStoreAnalysisPage(req: Request, res: Response): Promise<void> {
   //try {
-    //const stores = await getAllStores(); // Retrieve all stores from the database
-    const stores = [];
+    const stores = await getAllStores(); // Retrieve all stores from the database
     res.render('storeInfo', { stores });
   //} catch (error) {
   //  console.error(error);
