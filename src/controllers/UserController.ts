@@ -34,9 +34,9 @@ async function registerUser(req: Request, res: Response): Promise<void> {
     await addUser(email, passwordHash, birthday);
     await sendEmail(email, 'Welcome!', 'You have successfully created your account!');
     res.redirect('/login');
-  }else(
+  }else{
     res.redirect('/register');
-  )
+  }
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
