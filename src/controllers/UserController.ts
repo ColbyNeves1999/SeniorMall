@@ -235,7 +235,7 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  const { passwordHash } = req.body as { passwordHash: string };
+  const { password } = req.body as { password: string };
   // Get the user account
   const user = await getUserById(authenticatedUser.userId);
   if (!user) {
@@ -243,6 +243,8 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
     return;
   }
 
+  const passwordHash = await argon2.hash(password);
+  
   // Now update their password
   try {
     await changePassword(authenticatedUser.userId, passwordHash);
