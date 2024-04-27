@@ -32,7 +32,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
   if(!user){
     // Stores the hash in the place of the password
     await addUser(email, passwordHash, birthday);
-    await sendEmail(email, 'Welcome!', 'You have successfully created your account!');
+    //await sendEmail(email, 'Welcome!', 'You have successfully created your account!');
     res.redirect('/login');
   }else{
     res.redirect('/register');
