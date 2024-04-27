@@ -108,14 +108,14 @@ async function updateEmailAddress(userId: string, newEmail: string): Promise<voi
 }
 
 async function changePassword(userId: string, newPassword: string): Promise<void> {
-  let user = await getUserById(userId);
+  const user = await getUserById(userId);
   user.passwordHash = newPassword;
 
-  user = await userRepository.save(user);
+  await userRepository.save(user);
 }
 
 async function updateAdminStatus(userId: string, adminStatus: string): Promise<void> {
-  console.log(adminStatus);
+
   const user = await getUserById(userId);
 
   if (adminStatus === 'elevate') {
