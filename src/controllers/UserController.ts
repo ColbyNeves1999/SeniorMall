@@ -27,17 +27,15 @@ async function registerUser(req: Request, res: Response): Promise<void> {
   // Hashes the password
   const passwordHash = await argon2.hash(password);
 
-  try {
+  const user = await getUserByEmail(email);
+  
+  if(user){
     // Stores the hash in the place of the password
     await addUser(email, passwordHash, birthday);
     await sendEmail(email, 'Welcome!', 'You have successfully created your account!');
     res.redirect('/login');
-  } catch (err) {
-    console.error(err);
-    // Make sure email password in .env is correct if getting errors
-    const databaseErrorMessage = parseDatabaseError(err);
-    res.status(500).json(databaseErrorMessage);
-  }
+  }else(
+    res.redirect('/register');
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
