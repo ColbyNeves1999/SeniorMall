@@ -25,7 +25,8 @@ import {
   renderStoreAnalysisPage,
   renderStorePage,
   generateStoreChart,
-  renderHeldPage
+  renderHeldPage,
+  getAllStoreProfiles
 } from './controllers/StoreController';
 import { itemCreator, itemStockModifier } from './controllers/ItemController';
 import { renderMainPage } from './controllers/PageController';
@@ -94,6 +95,8 @@ app.post("/addToCart", addItemToCart)
 app.post('/removeFromCart', removeItemFromCart);
 
 app.post('/closeOrder', closingOrder);
+
+app.get('/getthemstores', getAllStoreProfiles);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
