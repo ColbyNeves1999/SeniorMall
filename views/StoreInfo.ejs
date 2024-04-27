@@ -1,18 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Homepage</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-   
-    
 
-    
+<section>
+        <h1>Store Analysis
+            <a href="/" class="btn">
+                Home
+            </a>
+        </h1>
+    </section>
+
+<div class="store-container">
+        <div class="store-info">
+            <% stores.forEach(store => { %>
+            <div class="store">
+                <h2><%= store.storeName %>
+                    <div >
+                        <form method="POST" action="/heldPage">
+                            <input type="hidden" id="storeName" name="storeName" value="<%=store.storeName%>">
+                            <button style="margin-left: 10px;">Check Requested Held Items</button>
+                        </form>
+                    </div>
+
+                </h2>
+                <img src="/imgs/<%= store.storeName %>.png" width="400" height="300">
+                <p>
+                    <span class="store-profile-views"> Store Profile views: <%= store.profileViews %></span>
+                </p>
+            </div>
+            <% }); %>
+        </div>
+    </div>   
+ <div id="storeChartContainer">
+        <!-- Chart container -->
+        <canvas id="storeChart"></canvas>
+    </div>
+
+<<!-- Script to fetch chart data and render the chart -->>
+    <script>
+        fetch('/store/chart')
+            .then(response => response.json())
+            .then(data => {
+                // Access chart data here
+                const labels = data.labels;
+                const profileViews = data.profileViews;
+
+                // Render the chart using Chart.js
+                const ctx = document.getElementById('storeChart').getContext('2d');
+                const storeChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Profile Views',
+                            data: profileViews,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                        }]
+                    },
+                    options: {
+                        aspectRatio: 1,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Store Name',
+                                    font: {
+                                      size: 40,
+                                      weight: 'bold',
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: 25
+                                    }
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Profile Views',
+                                    font: {
+                                      size: 40,
+                                      weight: 'bold',
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: 30
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error(error));
+    </script>
+
+
 </body>
 </html>
