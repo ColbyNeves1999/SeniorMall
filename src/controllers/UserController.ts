@@ -29,7 +29,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 
   const user = await getUserByEmail(email);
   
-  if(user){
+  if(!user){
     // Stores the hash in the place of the password
     await addUser(email, passwordHash, birthday);
     await sendEmail(email, 'Welcome!', 'You have successfully created your account!');
