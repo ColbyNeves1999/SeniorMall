@@ -36,6 +36,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
     res.redirect('/login');
   }else(
     res.redirect('/register');
+  )
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
