@@ -18,6 +18,7 @@ import {
   renderProfilePage,
   updateUserPassword,
   updateUserAdminPermissions,
+  updateUserEmail,
 } from './controllers/UserController';
 
 import {
@@ -76,6 +77,7 @@ app.get('/users/userAccountsPage', renderProfilePage);
 
 app.post('/users/delete', deleteAccount);
 app.post('/users/changePassword', updateUserPassword);
+app.post('/users/changeEmail', updateUserEmail);
 app.get('/cartPage', renderCart); //Renders a user's card
 
 app.get('/userHomepage', userHomePage); // Displays the user's homepage

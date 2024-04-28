@@ -28,13 +28,13 @@ async function registerUser(req: Request, res: Response): Promise<void> {
   const passwordHash = await argon2.hash(password);
 
   const user = await getUserByEmail(email);
-  
-  if(!user){
+
+  if (!user) {
     // Stores the hash in the place of the password
     await addUser(email, passwordHash, birthday);
     await sendEmail(email, 'Welcome!', 'You have successfully created your account!');
     res.redirect('/login');
-  }else{
+  } else {
     res.redirect('/register');
   }
 }
@@ -186,22 +186,22 @@ async function deleteAccount(req: Request, res: Response): Promise<void> {
 }
 
 async function updateUserEmail(req: Request, res: Response): Promise<void> {
-  const { targetUserId } = req.params as UserIdParam;
+  const { currEmail, newEmail } = req.params as { currEmail: string, newEmail: string };
 
   // NOTES: Access the data from `req.session`
   const { isLoggedIn, authenticatedUser } = req.session;
 
   // NOTES: We need to make sure that this client is logged in AND
   //        they are try to modify their own user account
-  if (!isLoggedIn || authenticatedUser.userId !== targetUserId) {
-    res.sendStatus(403); // 403 Forbidden
+  if (!isLoggedIn || authenticatedUser.email !== currEmail) {
+    res.render('/'); // Redirects if this isn't their account they're trying to change.
     return;
   }
 
-  const { email } = req.body as { email: string };
+  //const { email } = req.body as { email: string };
 
   // Get the user account
-  const user = await getUserById(targetUserId);
+  const user = await getUserByEmail(currEmail);
 
   if (!user) {
     res.redirect('/login'); // 404 Not Found
@@ -210,7 +210,7 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
 
   // Now update their email address
   try {
-    await updateEmailAddress(targetUserId, email);
+    await updateEmailAddress(user.userId, newEmail);
   } catch (err) {
     // The email was taken so we need to send an error message
     console.error(err);
@@ -244,7 +244,7 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
   }
 
   const passwordHash = await argon2.hash(passwordNew);
-  
+
   // Now update their password
   try {
     await changePassword(authenticatedUser.userId, passwordHash);
