@@ -10,8 +10,8 @@ const transporter = nodemailer.createTransport({
 
 async function sendEmail(to: string, subject: string, message: string): Promise<void> {
   await transporter.sendMail({
-    to: to,
-    subject: subject,
+    to,
+    subject,
     text: message,
   });
 }
