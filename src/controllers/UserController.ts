@@ -186,22 +186,20 @@ async function deleteAccount(req: Request, res: Response): Promise<void> {
 }
 
 async function updateUserEmail(req: Request, res: Response): Promise<void> {
-  const { currEmail, newEmail } = req.params as { currEmail: string, newEmail: string };
+  const { currEmail, newEmail } = req.body as { currEmail: string, newEmail: string };
 
   // NOTES: Access the data from `req.session`
   const { isLoggedIn, authenticatedUser } = req.session;
 
+  // Get the user account
+  const user = await getUserByEmail(currEmail);
+
   // NOTES: We need to make sure that this client is logged in AND
   //        they are try to modify their own user account
   if (!isLoggedIn || authenticatedUser.email !== currEmail) {
-    res.render('/'); // Redirects if this isn't their account they're trying to change.
+    res.render('userAccountsPage', { user }); // Redirects if this isn't their account they're trying to change.
     return;
   }
-
-  //const { email } = req.body as { email: string };
-
-  // Get the user account
-  const user = await getUserByEmail(currEmail);
 
   if (!user) {
     res.redirect('/login'); // 404 Not Found
@@ -211,6 +209,7 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
   // Now update their email address
   try {
     await updateEmailAddress(user.userId, newEmail);
+    authenticatedUser.email = newEmail;
   } catch (err) {
     // The email was taken so we need to send an error message
     console.error(err);
@@ -219,7 +218,7 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  res.sendStatus(200);
+  res.redirect('/');
 }
 
 async function updateUserPassword(req: Request, res: Response): Promise<void> {
