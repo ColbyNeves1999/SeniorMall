@@ -25,6 +25,7 @@ async function storeCreator(req: Request, res: Response): Promise<void> {
   res.redirect('/users/userAccountsPage');
 }
 
+//Retrieves the views that are used to display how frequently a store is checked
 async function getStoreProfileData(req: Request, res: Response): Promise<void> {
   const { targetStoreId } = req.params as StoreIdParam;
 
@@ -39,6 +40,7 @@ async function getStoreProfileData(req: Request, res: Response): Promise<void> {
   res.render('storeInfo', { store });
 }
 
+//Renders store pages that display the store and their items
 async function renderStorePage(req: Request, res: Response): Promise<void> {
   const { storeName } = req.body as NewStoreRequest;
 
@@ -54,6 +56,7 @@ async function renderStorePage(req: Request, res: Response): Promise<void> {
   }
 }
 
+//Renders the page that show items in carts that are being held
 async function renderHeldPage(req: Request, res: Response): Promise<void> {
   const { storeName } = req.body as NewStoreRequest;
   const { authenticatedUser } = req.session;
@@ -73,14 +76,15 @@ async function renderHeldPage(req: Request, res: Response): Promise<void> {
   
 }
 
+// Retrieve all stores from the database and displays them to the user
 async function renderStoreAnalysisPage(req: Request, res: Response): Promise<void> {
-  //try {
-    const stores = await getAllStores(); // Retrieve all stores from the database
+ try {
+    const stores = await getAllStores(); 
     res.render('StoreInfo', { stores });
-  //} catch (error) {
-  //  console.error(error);
-  //  res.status(500).send('Internal server error');
-  //}
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal server error');
+  }
 }
 
 // Define the ChartData interface
