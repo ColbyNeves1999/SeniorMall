@@ -11,6 +11,7 @@ async function getAllStores(): Promise<Store[]> {
   return await storeRepository.find();
 }
 
+// Recieves information and create store based on information
 async function addStore(
   storeName: string,
   location: string,
@@ -24,15 +25,12 @@ async function addStore(
   newStore.phone = phone;
   newStore.email = email;
 
-  // Then save it to the database
-  // NOTES: We reassign to `newStore` so we can access
-  // NOTES: the fields the database autogenerates (the id & default columns)
   newStore = await storeRepository.save(newStore);
-  // Add the newly added store to the array
+
   return newStore;
 }
 
-// Store's Location
+// Store's Location (if it needed to be changed)
 async function setStoreLocation(storeId: string, location: string): Promise<void> {
   let store = await getStoreById(storeId);
   store.location = location;
@@ -40,7 +38,7 @@ async function setStoreLocation(storeId: string, location: string): Promise<void
   store = await storeRepository.save(store);
 }
 
-// User's Admin Status
+// Store's phone (if it needed to be changed)
 async function setStorePhone(storeId: string, phone: string): Promise<void> {
   let store = await getStoreById(storeId);
   store.phone = phone;
