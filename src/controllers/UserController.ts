@@ -15,8 +15,6 @@ import {
 import { parseDatabaseError } from '../utils/db-utils';
 import { sendEmail } from '../services/emailService';
 
-// const { GMAIL_USERNAME } = process.env;
-
 async function getAllUserProfiles(req: Request, res: Response): Promise<void> {
   res.json(await allUserData());
 }
@@ -39,6 +37,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
   }
 }
 
+//Helps create a session for users who are logging in
 async function logIn(req: Request, res: Response): Promise<void> {
   if (req.session.isLoggedIn === true) {
     const { authenticatedUser } = req.session;
@@ -51,18 +50,17 @@ async function logIn(req: Request, res: Response): Promise<void> {
     }
   }
 
+  //Gets a the date as a string and parses the information out.
   const now = new Date();
-  // NOTES: We need to convert the date string back into a Date() object
-  //        `parseISO()` does the conversion
   const logInTimeout = parseISO(req.session.logInTimeout);
-  // NOTES: If the client has a timeout set and it has not expired
+  // If the client has a timeout set and it has not expired
   if (logInTimeout && isBefore(now, logInTimeout)) {
-    // NOTES: This will create a human friendly duration message
+    // This will create a human friendly duration message
     const timeRemaining = formatDistanceToNow(logInTimeout);
 
     const message = `Log in Time out.You have ${timeRemaining} remaining.`;
-    // NOTES: Reject their request
-    res.status(429).send(message); // 429 Too Many Requests
+    // Prevents users from trying to login to many times
+    res.status(429).send(message);
 
     return;
   }
@@ -74,30 +72,32 @@ async function logIn(req: Request, res: Response): Promise<void> {
     return;
   }
 
+  //This helps to try and prevent someone from logging into an account to many times
   const { passwordHash } = user;
   if (!(await argon2.verify(passwordHash, password))) {
-    // NOTES: If they haven't attempted to log in yet
+
     if (!req.session.logInAttempts) {
-      req.session.logInAttempts = 1; // NOTES: Set their attempts to one
+      req.session.logInAttempts = 1;
     } else {
-      req.session.logInAttempts += 1; // NOTES: Otherwise increment their attempts
+      req.session.logInAttempts += 1; // Increments on attempts to login
     }
 
-    // NOTES: If the client has failed five times then we will add a
-    //        3 minute timeout
+    // A timer of 3 minutes is added if they tried logging in to many times
+    // At the end, their attempts are reset
     if (req.session.logInAttempts >= 5) {
-      const threeMinutesLater = addMinutes(now, 3).toISOString(); // NOTES: Must convert to a string
+      const threeMinutesLater = addMinutes(now, 3).toISOString();
       req.session.logInTimeout = threeMinutesLater;
-      req.session.logInAttempts = 0; // NOTES: Reset their attempts
+      req.session.logInAttempts = 0; 
     }
 
-    res.redirect('/login'); // 404 Not Found - user with email/pass doesn't exist
+    //Redirects to login page on incorrect login
+    res.redirect('/login');
     return;
   }
-  // NOTES: Remember to clear the session before setting their authenticated session data
+
   await req.session.clearSession();
 
-  // NOTES: Now we can add whatever data we want to the session
+  // Saves user session data on correct login
   req.session.authenticatedUser = {
     email: user.email,
     userId: user.userId,
@@ -107,6 +107,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
   res.redirect('/users/userAccountsPage');
 }
 
+//Destroys a user's sesssion if they logout
 async function logOut(req: Request, res: Response): Promise<void> {
   req.session.destroy((err) => {
     if (err) {
@@ -165,20 +166,23 @@ async function deleteAccount(req: Request, res: Response): Promise<void> {
 
   const user = await getUserByEmail(email);
 
+  // Email doesn't exist
   if (!user) {
-    res.redirect('/users/userAccountsPage'); // 404 Not Found - email doesn't exist
+    res.redirect('/users/userAccountsPage'); 
     return;
   }
 
+  // Prevents someone from trying to delete someone elses account
   if (authenticatedUser.userId !== user.userId) {
-    res.redirect('/users/userAccountsPage'); // trying to delete someone elses account
+    res.redirect('/users/userAccountsPage');
     return;
   }
 
   const { passwordHash } = user;
 
+  //Checks to make sure that the user who's logged in has correctly entered their password
   if (!(await argon2.verify(passwordHash, password))) {
-    res.redirect('/users/userAccountsPage'); // 404 not found - user w/ email/password doesn't exist
+    res.redirect('/users/userAccountsPage');
   }
 
   await deleteUserById(user.userId);
@@ -188,21 +192,20 @@ async function deleteAccount(req: Request, res: Response): Promise<void> {
 async function updateUserEmail(req: Request, res: Response): Promise<void> {
   const { currEmail, newEmail } = req.body as { currEmail: string, newEmail: string };
 
-  // NOTES: Access the data from `req.session`
+  //Access the data from `req.session`
   const { isLoggedIn, authenticatedUser } = req.session;
 
   // Get the user account
   const user = await getUserByEmail(currEmail);
 
-  // NOTES: We need to make sure that this client is logged in AND
-  //        they are try to modify their own user account
+  // Checks to make sure that the session is currently active and that they're the correct user
   if (!isLoggedIn || authenticatedUser.email !== currEmail) {
     res.render('userAccountsPage', { user }); // Redirects if this isn't their account they're trying to change.
     return;
   }
 
   if (!user) {
-    res.redirect('/login'); // 404 Not Found
+    res.redirect('/login');
     return;
   }
 
@@ -222,21 +225,22 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
 }
 
 async function updateUserPassword(req: Request, res: Response): Promise<void> {
-  // const { targetUserId } = req.params as UserIdParam;
 
-  // NOTES: Access the data from `req.session`
+  //Access the data from `req.session`
   const { isLoggedIn, authenticatedUser } = req.session;
 
-  // NOTES: We need to make sure that this client is logged in AND
-  //        they are try to modify their own user account
+  //Makes sure they're logged in to update the password
   if (!isLoggedIn) {
     res.redirect('/login');
     return;
   }
 
+  //Gets the ne user password
   const { passwordNew } = req.body as { passwordNew: string };
+  
   // Get the user account
   const user = await getUserById(authenticatedUser.userId);
+  
   if (!user) {
     res.redirect('/login'); // 404 Not Found
     return;
@@ -256,8 +260,9 @@ async function updateUserPassword(req: Request, res: Response): Promise<void> {
   }
 
   res.render('userAccountsPage', { user });
-  // res.sendStatus(200);
+
 }
+
 
 async function updateUserAdminPermissions(req: Request, res: Response): Promise<void> {
   const { isLoggedIn, authenticatedUser } = req.session;
