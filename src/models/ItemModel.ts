@@ -35,15 +35,12 @@ async function addItem(
   newItem.description = itemDescription;
   newItem.store = thisStore;
 
-  // Then save it to the database
-  // NOTES: We reassign to `newItem` so we can access
-  // NOTES: the fields the database autogenerates (the id & default columns)
   newItem = await itemRepository.save(newItem);
 
   return newItem;
 }
 
-// User's associated Mall address
+// Set's new item stock
 async function setItemStock(itemId: string, stock: number): Promise<void> {
   let item = await getItemById(itemId);
   item.stock = stock;
@@ -51,6 +48,7 @@ async function setItemStock(itemId: string, stock: number): Promise<void> {
   item = await itemRepository.save(item);
 }
 
+// Updates item stock
 async function updateItemStock(item: Item, stock: number, subOrAdd: string): Promise<void> {
   if (subOrAdd === "Subtract") {
     item.stock = item.stock - stock;
