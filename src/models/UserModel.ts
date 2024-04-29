@@ -75,8 +75,10 @@ async function deleteUserById(userId: string): Promise<void> {
     .execute();
 }
 
+// This function is apart of a daily check that makes sure that there is
+// always a user who has admin privileges. The GMAIL_USER should always have admin rights
 async function lookForAdmin(): Promise<void> {
-  // IMPORTANT: Hash the password
+
   const email = GMAIL_USERNAME;
   const passwordHash = await argon2.hash(ADMINPASS);
   const birthday = 9999;
