@@ -5,6 +5,7 @@ import {
 } from '../models/CartModel';
 import { getStoreById, getStoreByName } from '../models/StoreModel';
 
+//Functions retrieves information from request body and creates item using that information
 async function addItemToCart(req: Request, res: Response): Promise<void> {
   const { isLoggedIn, authenticatedUser } = req.session;
 
@@ -42,9 +43,10 @@ async function getItemsInCartHandler(req: Request, res: Response): Promise<void>
   }
 }
 
+//Helps to handle if items get removed from cart properly
 async function removeItemFromCart(req: Request, res: Response): Promise<void> {
   try {
-    //const cartItemId = req.params.id;
+
     const { isLoggedIn } = req.session;
     const { cartItemId } = req.body;
 
@@ -66,7 +68,7 @@ async function removeItemFromCart(req: Request, res: Response): Promise<void> {
 
 async function closingOrder(req: Request, res: Response): Promise<void> {
   try {
-    //const cartItemId = req.params.id;
+
     const { isLoggedIn } = req.session;
     const { cartItemId, fulfilled, storeName } = req.body;
 
@@ -75,6 +77,7 @@ async function closingOrder(req: Request, res: Response): Promise<void> {
       return;
     }
 
+    //Verifying that the inofrmation is registered as INTs
     const tempItem = await getItemById(cartItemId);
     const tempFulfilled = await parseInt(fulfilled);
 
@@ -84,6 +87,7 @@ async function closingOrder(req: Request, res: Response): Promise<void> {
     const store = await getStoreByName(storeName);
     if (store) {
 
+      //List of Items that are being held by a store
       const heldList = await getItemsBeingHeld(storeName);
 
       res.render('heldPage', { store, heldList });
@@ -107,6 +111,7 @@ async function renderCart(req: Request, res: Response): Promise<void> {
   }
 
   try {
+    //Retrieves cart items for a store and redirects with that list
     const cartItems = await getItemsInCart();
     res.render('cart', { cartItems });
   } catch (error) {
