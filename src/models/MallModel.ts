@@ -16,9 +16,6 @@ async function addMall(mallname: string): Promise<Mall> {
   let newMall = new Mall();
   newMall.mallName = mallname;
 
-  // Then save it to the database
-  // NOTES: We reassign to `newMall` so we can access
-  // NOTES: the fields the database autogenerates (the id & default columns)
   newMall = await mallRepository.save(newMall);
 
   return newMall;
